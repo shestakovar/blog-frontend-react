@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import getPosts from "./api"
 import Posts from "./components/Posts";
+import { Container } from 'react-bootstrap';
+import Header from "./components/Header"
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -18,7 +20,10 @@ function App() {
 
   return (
     <div className="App">
-      <Posts posts={posts}></Posts>
+      <Header />
+      <Container>
+        <Posts posts={posts}></Posts>
+      </Container>
     </div>
   );
 }
