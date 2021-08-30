@@ -10,12 +10,14 @@ const PostDetailPage = () => {
   const params = useParams();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   async function fetchPost() {
     let response = await api.getPost(params.id);
     setPost(response);
     response = await api.getComments(params.id)
     setComments(response);
+    setIsLoaded(true);
   }
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const PostDetailPage = () => {
 
   return (
     <Container>
-      <PostDetail post={post} comments={comments} />
+      {isLoaded ? <PostDetail post={post} comments={comments} /> : ''}
     </Container>
   )
 }

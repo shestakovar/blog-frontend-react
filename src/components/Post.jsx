@@ -7,7 +7,7 @@ const Post = (props) => {
     <Card className="my-3">
       <Card.Body>
         <Card.Title>{props.post.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{props.post.author}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">{props.post.author.username}</Card.Subtitle>
         <Card.Text>
           {props.post.content}
         </Card.Text>
