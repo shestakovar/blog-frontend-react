@@ -15,6 +15,11 @@ async function getComments(id) {
     return response.data;
 }
 
-const api = { getPosts, getPost, getComments }
+async function pushComment(id, comment) {
+    const response = await axios.post(`http://localhost:8000/api/posts/${id}/comments/`, comment);
+    return response.data;
+}
+
+const api = { getPosts, getPost, getComments, pushComment }
 
 export default api;

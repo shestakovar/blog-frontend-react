@@ -26,7 +26,7 @@ const PostDetailPage = () => {
 
   return (
     <Container>
-      {isLoaded ? <PostDetail post={post} comments={comments} /> : ''}
+      {isLoaded ? <PostDetail post={post} comments={comments} setComments={setComments} /> : ''}
     </Container>
   )
 }
