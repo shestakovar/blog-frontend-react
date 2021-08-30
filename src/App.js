@@ -1,30 +1,13 @@
-
-import { useEffect, useState } from "react";
-import getPosts from "./api"
-import Posts from "./components/Posts";
-import { Container } from 'react-bootstrap';
+import { BrowserRouter } from "react-router-dom";
 import Header from "./components/Header"
+import Router from "./components/Router";
 
 function App() {
-  const [posts, setPosts] = useState([]);
-
-
-  async function fetchPosts() {
-    const response = await getPosts();
-    setPosts(response);
-  }
-
-  useEffect(() => {
-    fetchPosts();
-  }, [])
-
   return (
-    <div className="App">
+    <BrowserRouter>
       <Header />
-      <Container>
-        <Posts posts={posts}></Posts>
-      </Container>
-    </div>
+      <Router />
+    </BrowserRouter>
   );
 }
 

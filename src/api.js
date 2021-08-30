@@ -5,4 +5,9 @@ async function getPosts() {
     return posts.data;
 }
 
-export default getPosts;
+async function getPost(id) {
+    const posts = await axios.get("http://localhost:8000/api/posts/" + id);
+    return posts.data;
+}
+
+export default { getPosts, getPost };

@@ -1,8 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
-const Post = (props) => {
+const PostDetail = (props) => {
   return (
     <Card className="my-3">
       <Card.Body>
@@ -11,10 +10,9 @@ const Post = (props) => {
         <Card.Text>
           {props.post.content}
         </Card.Text>
-        <Card.Link as={Link} to={`${props.post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>
     </Card>
   )
 }
 
-export default Post;
+export default PostDetail;
