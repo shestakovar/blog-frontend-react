@@ -10,6 +10,11 @@ async function getPost(id) {
     return posts.data;
 }
 
-const api = { getPosts, getPost }
+async function getComments(id) {
+    const response = await axios.get(`http://localhost:8000/api/posts/${id}/comments/`);
+    return response.data;
+}
+
+const api = { getPosts, getPost, getComments }
 
 export default api;
