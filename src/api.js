@@ -10,4 +10,6 @@ async function getPost(id) {
     return posts.data;
 }
 
-export default { getPosts, getPost };
+const api = { getPosts, getPost }
+
+export default api;
