@@ -15,7 +15,7 @@ const PostDetail = (props) => {
       </Card>
       <div>
         {props.comments.map(comm =>
-          <div>
+          <div key={comm.id}>
             <div>{comm.author.username}</div>
             <div>{comm.content}</div>
           </div>
