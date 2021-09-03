@@ -1,7 +1,13 @@
 import axios from "axios";
 
-async function getPosts() {
-    const posts = await axios.get("http://localhost:8000/api/posts/");
+async function getPosts(limit = 5, page = 0) {
+    const offset = page * limit;
+    const posts = await axios.get(`http://localhost:8000/api/posts/`, {
+        params: {
+            limit: limit,
+            offset: offset,
+        }
+    });
     return posts.data;
 }
 
