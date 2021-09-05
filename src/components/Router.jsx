@@ -27,20 +27,17 @@ const Router = () => {
   { path: "/login", component: LoginPage, exact: false },
   ];
   return (
-    <Switch>
-      {!isAuth
-        ?
-        <React.Fragment>{notAuthRoutes.map(route =>
+    !isAuth
+      ? <Switch>
+        {notAuthRoutes.map(route =>
           <Route path={route.path} component={route.component} exact={route.exact} key={route.path} />)}
-          <Redirect to="/login" />
-        </React.Fragment>
-
-        : <React.Fragment>{AuthRoutes.map(route =>
+        <Redirect to="/login" />
+      </Switch>
+      : <Switch>
+        {AuthRoutes.map(route =>
           <Route path={route.path} component={route.component} exact={route.exact} key={route.path} />)}
-          <Redirect to="/" />
-        </React.Fragment>
-      }
-    </Switch>
+        <Redirect to="/" />
+      </Switch>
   )
 }
 
