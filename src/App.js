@@ -19,11 +19,18 @@ function App() {
     }
   }
 
+  const checkLoad = async () => {
+    await checkAuth();
+    setIsLoading(false);
+  }
+
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      checkAuth();
+      checkLoad();
     }
-    setIsLoading(false);
+    else {
+      setIsLoading(false);
+    }
   }, [])
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, isLoading }}>
