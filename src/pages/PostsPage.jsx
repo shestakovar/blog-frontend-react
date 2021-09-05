@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import api from "../api";
+import PostService from '../services/PostService';
 import Posts from '../components/Posts';
 import { Container } from 'react-bootstrap';
 import { getPagesCount } from '../utils/pages';
@@ -20,7 +20,7 @@ const PostsPage = () => {
 
   async function fetchPosts() {
     setIsLoaded(false);
-    const response = await api.getPosts(limit, page);
+    const response = await PostService.getPosts(limit, page);
     setPosts([...posts, ...response.results]);
     const count = response.count;
     setCountPages(getPagesCount(count, limit));

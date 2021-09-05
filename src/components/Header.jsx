@@ -8,8 +8,9 @@ const Header = () => {
 
   const logout = () => {
     setIsAuth(false);
-    localStorage.removeItem('auth');
+    localStorage.removeItem('token');
   }
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>

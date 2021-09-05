@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import api from "../api";
+import PostService from '../services/PostService';
 import { Container } from 'react-bootstrap';
 import PostDetail from '../components/PostDetail';
 
@@ -13,9 +13,9 @@ const PostDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   async function fetchPost() {
-    let response = await api.getPost(params.id);
+    let response = await PostService.getPost(params.id);
     setPost(response);
-    response = await api.getComments(params.id)
+    response = await PostService.getComments(params.id)
     setComments(response);
     setIsLoaded(true);
   }

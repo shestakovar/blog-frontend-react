@@ -1,31 +1,37 @@
 import axios from "axios";
+import AuthService from "./services/AuthService";
 
-async function getPosts(limit = 5, page = 0) {
-    const offset = page * limit;
-    const posts = await axios.get(`http://localhost:8000/api/posts/`, {
-        params: {
-            limit: limit,
-            offset: offset,
+const API_URL = "http://localhost:8000/api"
+
+export const instance = axios.create({
+    baseURL: API_URL,
+});
+
+export const auth_instance = axios.create({
+    baseURL: API_URL,
+})
+
+export const cred_instance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true,
+})
+
+auth_instance.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+    return config;
+})
+
+auth_instance.interceptors.response.use((config) => { return config }, async (error) => {
+    const origRequest = error.config;
+    if (error.response.status == 401 && error.config && !error.config._isRetry) {
+        origRequest._isRetry = true;
+        try {
+            const response = await AuthService.refresh();
+            localStorage.setItem('token', response.access);
+            return auth_instance.request(origRequest);
+        } catch (e) {
+            console.log(e?.response?.data?.detail)
         }
-    });
-    return posts.data;
-}
-
-async function getPost(id) {
-    const posts = await axios.get("http://localhost:8000/api/posts/" + id);
-    return posts.data;
-}
-
-async function getComments(id) {
-    const response = await axios.get(`http://localhost:8000/api/posts/${id}/comments/`);
-    return response.data;
-}
-
-async function pushComment(id, comment) {
-    const response = await axios.post(`http://localhost:8000/api/posts/${id}/comments/`, comment);
-    return response.data;
-}
-
-const api = { getPosts, getPost, getComments, pushComment }
-
-export default api;
+    }
+    throw error;
+})

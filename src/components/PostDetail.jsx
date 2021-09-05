@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Button, Form } from 'react-bootstrap';
-import api from "../api";
+import PostService from "../services/PostService";
 
 const PostDetail = (props) => {
   let [newComment, setNewComment] = useState('');
@@ -10,8 +10,8 @@ const PostDetail = (props) => {
     const newPushComment = {
       content: newComment,
     };
-    let response = await api.pushComment(props.post.id, newPushComment);
-    response = await api.getComments(props.post.id);
+    let response = await PostService.pushComment(props.post.id, newPushComment);
+    response = await PostService.getComments(props.post.id);
     props.setComments(response);
   }
 
