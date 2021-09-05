@@ -19,12 +19,13 @@ const Router = () => {
     { path: "/:id", component: PostDetailPage, exact: true },
   ];
 
-  const AuthRoutes = [...everyoneRoutes,
-
+  const AuthRoutes = [
+    ...everyoneRoutes,
   ]
 
-  const notAuthRoutes = [...everyoneRoutes,
-  { path: "/login", component: LoginPage, exact: false },
+  const notAuthRoutes = [
+    { path: "/login", component: LoginPage, exact: false },
+    ...everyoneRoutes,
   ];
   return (
     !isAuth
