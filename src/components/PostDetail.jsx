@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
-import { Card, Button, Form } from 'react-bootstrap';
+import React, { useState, useContext } from 'react'
+import { Card, Button, Form, Alert } from 'react-bootstrap';
 import PostService from "../services/PostService";
+import { AuthContext } from '../context';
+import { NavLink } from 'react-router-dom';
 
 const PostDetail = (props) => {
   let [newComment, setNewComment] = useState('');
+  const { isAuth } = useContext(AuthContext);
 
   const addNewComment = async (e) => {
     e.preventDefault();
@@ -35,15 +38,20 @@ const PostDetail = (props) => {
         )}
 
       </div>
-      <Form className="mt-5">
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Текст комментария</Form.Label>
-          <Form.Control as="textarea" rows={3} value={newComment} onChange={e => setNewComment(e.target.value)} />
-        </Form.Group>
-        <Button variant="primary" type="submit" onClick={addNewComment}>
-          Добавить комментарий
-        </Button>
-      </Form>
+      {isAuth
+        ? <Form className="mt-5">
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Текст комментария</Form.Label>
+            <Form.Control as="textarea" rows={3} value={newComment} onChange={e => setNewComment(e.target.value)} />
+          </Form.Group>
+          <Button variant="primary" type="submit" onClick={addNewComment}>
+            Добавить комментарий
+          </Button>
+        </Form>
+        : <Alert variant="info" className="mt-4">
+          <Alert.Link as={NavLink} to="/login">Войдите</Alert.Link>, чтобы добавить комментарий
+        </Alert>
+      }
     </div>
   )
 }
