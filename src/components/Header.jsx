@@ -2,11 +2,13 @@ import React, { useContext } from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../context';
+import AuthService from '../services/AuthService';
 
 const Header = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
-  const logout = () => {
+  const logout = async () => {
+    await AuthService.logout();
     setIsAuth(false);
     localStorage.removeItem('token');
   }
