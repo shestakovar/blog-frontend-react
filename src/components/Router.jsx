@@ -16,7 +16,7 @@ const Router = () => {
 
   const everyoneRoutes = [
     { path: "/", component: PostsPage, exact: true },
-    { path: "/:id", component: PostDetailPage, exact: true },
+    { path: "/:id(\\d+)", component: PostDetailPage, exact: true },
   ];
 
   const AuthRoutes = [
