@@ -2,12 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
 import { AuthContext } from '../context';
+import { useHistory } from 'react-router-dom';
 
 const LoginPage = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errResponse, setErrResponse] = useState('');
+  const history = useHistory();
 
   const login = async (event) => {
     event.preventDefault();
@@ -15,6 +17,7 @@ const LoginPage = () => {
       const response = await AuthService.login(username, password);
       localStorage.setItem('token', response.access);
       setIsAuth(true);
+      history.goBack();
     } catch (e) {
       setErrResponse(e?.response?.data?.detail)
     }
