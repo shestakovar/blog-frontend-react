@@ -9,8 +9,8 @@ const Header = () => {
 
   const logout = async () => {
     await AuthService.logout();
-    setIsAuth(false);
     localStorage.removeItem('token');
+    setIsAuth(false);
   }
 
   return (
