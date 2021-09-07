@@ -43,7 +43,7 @@ const PostsPage = () => {
   return (
     <Container>
       <Posts posts={posts} />
-      {!isLoading ? 'Загрузка' : ''}
+      {isLoading ? 'Загрузка' : ''}
       <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
       <div className="observer" ref={lastElement}></div>
     </Container>
