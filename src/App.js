@@ -4,20 +4,18 @@ import AuthService from "./services/AuthService";
 import Header from "./components/Header"
 import Router from "./components/Router";
 import { AuthContext } from "./context";
+import { useFetching } from "./hooks/useFetching";
+import LoaderError from "./components/LoaderError";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuth = async () => {
-    try {
-      const response = await AuthService.refresh();
-      localStorage.setItem('token', response.access);
-      setIsAuth(true);
-    } catch (e) {
-      console.log(e?.response?.data?.detail)
-    }
-  }
+  const [checkAuth, isResponseLoading, error] = useFetching(async () => {
+    const response = await AuthService.refresh();
+    localStorage.setItem('token', response.access);
+    setIsAuth(true);
+  })
 
   const checkLoad = async () => {
     await checkAuth();
@@ -34,10 +32,12 @@ function App() {
   }, [])
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, isLoading }}>
-      <BrowserRouter>
-        <Header />
-        <Router />
-      </BrowserRouter>
+      {error
+        ? <LoaderError isLoading={isResponseLoading} error={error} />
+        : <BrowserRouter>
+          <Header />
+          <Router />
+        </BrowserRouter>}
     </AuthContext.Provider>
   );
 }

@@ -6,25 +6,24 @@ import { Container } from 'react-bootstrap';
 import { getPagesCount } from '../utils/pages';
 import MyPagination from '../components/MyPagination';
 import { useObserver } from '../hooks/useObserver';
+import { useFetching } from '../hooks/useFetching';
+import LoaderError from '../components/LoaderError';
 
 
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [countPages, setCountPages] = useState(0);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [indicatorPage, setIndicatorPage] = useState(0);
   const lastElement = useRef();
 
-  async function fetchPosts() {
-    setIsLoading(true);
+  const [fetchPosts, isLoading, error] = useFetching(async () => {
     const response = await PostService.getPosts(limit, page);
     setPosts([...posts, ...response.results]);
     const count = response.count;
     setCountPages(getPagesCount(count, limit));
-    setIsLoading(false);
-  }
+  });
 
   const changePage = (page) => {
     setPosts([]);
@@ -43,9 +42,10 @@ const PostsPage = () => {
   return (
     <Container>
       <Posts posts={posts} />
+      <LoaderError isLoading={isLoading} error={error} />
       {isLoading ? 'Загрузка' : ''}
-      <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
       <div className="observer" ref={lastElement}></div>
+      <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
     </Container>
 
   )

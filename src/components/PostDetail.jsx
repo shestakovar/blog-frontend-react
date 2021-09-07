@@ -3,12 +3,14 @@ import { Card, Button, Form, Alert } from 'react-bootstrap';
 import PostService from "../services/PostService";
 import { AuthContext } from '../context';
 import { NavLink } from 'react-router-dom';
+import { useFetching } from '../hooks/useFetching';
+import LoaderError from './LoaderError';
 
 const PostDetail = (props) => {
   let [newComment, setNewComment] = useState('');
   const { isAuth } = useContext(AuthContext);
 
-  const addNewComment = async (e) => {
+  const [addNewComment, isLoading, error] = useFetching(async (e) => {
     e.preventDefault();
     const newPushComment = {
       content: newComment,
@@ -16,10 +18,10 @@ const PostDetail = (props) => {
     let response = await PostService.pushComment(props.post.id, newPushComment);
     response = await PostService.getComments(props.post.id);
     props.setComments(response);
-  }
+  })
 
   return (
-    <div>
+    <div className="mt-4">
       <Card className="my-3">
         <Card.Body>
           <Card.Title>{props.post.title}</Card.Title>
@@ -38,6 +40,8 @@ const PostDetail = (props) => {
         )}
 
       </div>
+
+      <LoaderError isLoading={isLoading} error={error} />
       {isAuth
         ? <Form className="mt-5">
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

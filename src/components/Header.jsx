@@ -2,16 +2,17 @@ import React, { useContext } from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../context';
+import { useFetching } from '../hooks/useFetching';
 import AuthService from '../services/AuthService';
 
 const Header = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
-  const logout = async () => {
+  const [logout, isLoading, error] = useFetching(async () => {
     await AuthService.logout();
     localStorage.removeItem('token');
     setIsAuth(false);
-  }
+  })
 
   return (
     <Navbar bg="light" expand="lg">

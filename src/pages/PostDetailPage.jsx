@@ -4,21 +4,20 @@ import { useParams } from 'react-router';
 import PostService from '../services/PostService';
 import { Container } from 'react-bootstrap';
 import PostDetail from '../components/PostDetail';
+import { useFetching } from '../hooks/useFetching';
+import LoaderError from '../components/LoaderError';
 
 
 const PostDetailPage = () => {
   const params = useParams();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  async function fetchPost() {
+  const [fetchPost, isLoading, error] = useFetching(async () => {
     let response = await PostService.getPost(params.id);
     setPost(response);
     response = await PostService.getComments(params.id)
     setComments(response);
-    setIsLoaded(true);
-  }
+  })
 
   useEffect(() => {
     fetchPost();
@@ -26,7 +25,7 @@ const PostDetailPage = () => {
 
   return (
     <Container>
-      {isLoaded ? <PostDetail post={post} comments={comments} setComments={setComments} /> : ''}
+      {!isLoading ? <PostDetail post={post} comments={comments} setComments={setComments} /> : <LoaderError isLoading={isLoading} error={error} />}
     </Container>
   )
 }

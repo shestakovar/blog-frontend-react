@@ -1,31 +1,28 @@
 import React, { useContext, useState } from 'react';
-import { Container, Form, Button, Alert } from 'react-bootstrap'
+import { Container, Form, Button } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
 import { AuthContext } from '../context';
 import { useHistory } from 'react-router-dom';
+import { useFetching } from '../hooks/useFetching';
+import LoaderError from '../components/LoaderError';
 
 const LoginPage = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errResponse, setErrResponse] = useState('');
   const history = useHistory();
 
-  const login = async (event) => {
+  const [login, isLoading, error] = useFetching(async (event) => {
     event.preventDefault();
-    try {
-      const response = await AuthService.login(username, password);
-      localStorage.setItem('token', response.access);
-      setIsAuth(true);
-      history.goBack();
-    } catch (e) {
-      setErrResponse(e?.response?.data?.detail)
-    }
-  }
+    const response = await AuthService.login(username, password);
+    localStorage.setItem('token', response.access);
+    setIsAuth(true);
+    history.goBack();
+  })
 
   return (
     <Container className="mt-4">
-      {errResponse ? <Alert variant="danger">{errResponse}</Alert> : ''}
+      <LoaderError isLoading={isLoading} error={error} />
       <Form onSubmit={login}>
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Имя пользователя</Form.Label>
