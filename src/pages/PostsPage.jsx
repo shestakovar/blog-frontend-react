@@ -10,8 +10,7 @@ import { useObserver } from '../hooks/useObserver';
 
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isFirstLoaded, setIsFirstLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [countPages, setCountPages] = useState(0);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
@@ -19,13 +18,12 @@ const PostsPage = () => {
   const lastElement = useRef();
 
   async function fetchPosts() {
-    setIsLoaded(false);
+    setIsLoading(true);
     const response = await PostService.getPosts(limit, page);
     setPosts([...posts, ...response.results]);
     const count = response.count;
     setCountPages(getPagesCount(count, limit));
-    setIsLoaded(true);
-    setIsFirstLoaded(true);
+    setIsLoading(false);
   }
 
   const changePage = (page) => {
@@ -38,14 +36,14 @@ const PostsPage = () => {
     fetchPosts();
   }, [page, indicatorPage])
 
-  useObserver(lastElement, isLoaded, page < countPages, () => {
+  useObserver(lastElement, isLoading, page < countPages, () => {
     setPage(page + 1);
   });
 
   return (
     <Container>
-      {isFirstLoaded ? <Posts posts={posts} /> : 'Загрузка'}
-      {!isLoaded ? 'Дозагрузка' : ''}
+      <Posts posts={posts} />
+      {!isLoading ? 'Загрузка' : ''}
       <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
       <div className="observer" ref={lastElement}></div>
     </Container>
