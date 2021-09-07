@@ -38,7 +38,7 @@ const PostsPage = () => {
     fetchPosts();
   }, [page, indicatorPage])
 
-  useObserver(lastElement, page < countPages, () => {
+  useObserver(lastElement, isLoaded, page < countPages, () => {
     setPage(page + 1);
   });
 
