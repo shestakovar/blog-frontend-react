@@ -16,6 +16,7 @@ const RegisterPage = () => {
     await AuthService.register(userData);
     const response = AuthService.login(userData.username, userData.password);
     localStorage.setItem('token', response.access);
+    localStorage.setItem('username', userData.username);
     setIsAuth(true);
     history.goBack();
   })

@@ -11,6 +11,7 @@ const Header = () => {
   const [logout, isLoading, error] = useFetching(async () => {
     await AuthService.logout();
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setIsAuth(false);
   })
 
@@ -28,6 +29,7 @@ const Header = () => {
             }
           </Nav>
         </Navbar.Collapse>
+        <div>{localStorage.getItem('username')}</div>
       </Container>
     </Navbar>
   )

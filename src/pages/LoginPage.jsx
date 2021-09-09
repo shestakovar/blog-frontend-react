@@ -17,6 +17,7 @@ const LoginPage = () => {
     event.preventDefault();
     const response = await AuthService.login(username, password);
     localStorage.setItem('token', response.access);
+    localStorage.setItem('username', username);
     setIsAuth(true);
     history.goBack();
   })
