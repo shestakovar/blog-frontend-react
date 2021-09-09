@@ -32,12 +32,10 @@ function App() {
   }, [])
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth, isLoading }}>
-      {error
-        ? <LoaderError isLoading={isResponseLoading} error={error} />
-        : <BrowserRouter>
-          <Header />
-          <Router />
-        </BrowserRouter>}
+      <BrowserRouter>
+        <Header />
+        <Router />
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 }
