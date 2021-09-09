@@ -5,6 +5,7 @@ import LoginPage from '../pages/LoginPage';
 import PostDetailPage from '../pages/PostDetailPage';
 import PostsPage from '../pages/PostsPage';
 import RegisterPage from '../pages/RegisterPage';
+import UserPage from '../pages/UserPage';
 
 const Router = () => {
   const { isAuth, isLoading } = useContext(AuthContext);
@@ -18,6 +19,7 @@ const Router = () => {
   const everyoneRoutes = [
     { path: "/", component: PostsPage, exact: true },
     { path: "/:id(\\d+)", component: PostDetailPage, exact: true },
+    { path: "/users/:id", component: UserPage, exact: false },
   ];
 
   const AuthRoutes = [

@@ -12,6 +12,7 @@ const Header = () => {
     await AuthService.logout();
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('userid');
     setIsAuth(false);
   })
 
@@ -25,13 +26,17 @@ const Header = () => {
             <Nav.Link as={NavLink} to="/">Посты</Nav.Link>
             {!isAuth
               ? <Nav.Link as={NavLink} to="/login">Войти</Nav.Link>
-              : <Nav.Link onClick={logout}>Выйти</Nav.Link>
+              : <React.Fragment>
+                <Nav.Link as={NavLink} to={`/users/${localStorage.getItem('userid')}`}>Личный кабинет</Nav.Link>
+                <Nav.Link onClick={logout}>Выйти</Nav.Link>
+              </React.Fragment>
+
             }
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-          {localStorage.getItem('username')}
+            {localStorage.getItem('username')}
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>
