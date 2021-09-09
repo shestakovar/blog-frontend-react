@@ -1,4 +1,4 @@
-import { cred_instance } from '../api'
+import { cred_instance, instance } from '../api'
 
 export default class AuthService {
     static async login(username, password) {
@@ -13,6 +13,11 @@ export default class AuthService {
 
     static async logout() {
         const response = await cred_instance.post(`/logout/`);
+        return response.data;
+    }
+
+    static async register(userobj) {
+        const response = await instance.post(`/users/`, userobj);
         return response.data;
     }
 }

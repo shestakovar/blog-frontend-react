@@ -5,6 +5,7 @@ import { AuthContext } from '../context';
 import { useHistory } from 'react-router-dom';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/LoaderError';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
@@ -37,6 +38,7 @@ const LoginPage = () => {
           Войти
         </Button>
       </Form>
+      <div>Еще не зарегистрированы? <Button as={Link} to="/register"> Зарегистрироваться</Button></div>
     </Container>
   )
 }

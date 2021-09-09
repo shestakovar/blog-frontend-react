@@ -10,9 +10,18 @@ const LoaderError = ({ isLoading, error }) => {
   });
 
   if (error)
-    return (
-      <Alert variant="danger">{error}</Alert>
-    )
+    if (typeof error === 'object')
+      return (
+        <div className="errors">
+          {Object.entries(error).map(([k, v]) =>
+            <Alert variant="danger">{k} : {v}</Alert>
+          )}
+        </div>
+      )
+    else
+      return (
+        <Alert variant="danger">{error}</Alert>
+      )
   if (showLoader && isLoading)
     return (
       <div>'Загрузка...'</div>

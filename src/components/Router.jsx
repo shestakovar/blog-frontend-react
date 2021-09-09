@@ -4,6 +4,7 @@ import { AuthContext } from '../context';
 import LoginPage from '../pages/LoginPage';
 import PostDetailPage from '../pages/PostDetailPage';
 import PostsPage from '../pages/PostsPage';
+import RegisterPage from '../pages/RegisterPage';
 
 const Router = () => {
   const { isAuth, isLoading } = useContext(AuthContext);
@@ -25,6 +26,7 @@ const Router = () => {
 
   const notAuthRoutes = [
     { path: "/login", component: LoginPage, exact: false },
+    { path: "/register", component: RegisterPage, exact: false },
     ...everyoneRoutes,
   ];
   return (
