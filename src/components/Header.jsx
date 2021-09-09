@@ -19,11 +19,11 @@ const Header = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={NavLink} to="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand as={NavLink} to="/" exact>React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/">Посты</Nav.Link>
+            <Nav.Link as={NavLink} to="/" exact>Посты</Nav.Link>
             {!isAuth
               ? <Nav.Link as={NavLink} to="/login">Войти</Nav.Link>
               : <React.Fragment>
