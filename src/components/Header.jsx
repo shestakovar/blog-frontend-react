@@ -29,7 +29,11 @@ const Header = () => {
             }
           </Nav>
         </Navbar.Collapse>
-        <div>{localStorage.getItem('username')}</div>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+          {localStorage.getItem('username')}
+          </Navbar.Text>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   )

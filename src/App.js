@@ -19,6 +19,8 @@ function App() {
 
   const checkLoad = async () => {
     await checkAuth();
+    if (!isAuth)
+      localStorage.removeItem('username');
     setIsLoading(false);
   }
 
