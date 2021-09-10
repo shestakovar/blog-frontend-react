@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AuthService from "./services/AuthService";
-import Header from "./components/Header"
+import Header from "./components/UI/Header"
 import Router from "./components/Router";
 import { AuthContext } from "./context";
 import { useFetching } from "./hooks/useFetching";

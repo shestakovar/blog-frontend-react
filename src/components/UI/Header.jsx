@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../context';
-import { useFetching } from '../hooks/useFetching';
-import AuthService from '../services/AuthService';
+import { AuthContext } from '../../context';
+import { useFetching } from '../../hooks/useFetching';
+import AuthService from '../../services/AuthService';
 
 const Header = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);

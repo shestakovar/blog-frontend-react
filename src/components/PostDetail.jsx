@@ -4,8 +4,8 @@ import PostService from "../services/PostService";
 import { AuthContext } from '../context';
 import { NavLink } from 'react-router-dom';
 import { useFetching } from '../hooks/useFetching';
-import LoaderError from './LoaderError';
-import TimeString from './TimeString';
+import LoaderError from './UI/LoaderError';
+import TimeString from './UI/TimeString';
 
 const PostDetail = (props) => {
   let [newComment, setNewComment] = useState('');

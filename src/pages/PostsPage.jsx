@@ -2,13 +2,13 @@ import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import PostService from '../services/PostService';
-import Posts from '../components/Posts';
+import Posts from '../components/PostList';
 import { Container } from 'react-bootstrap';
 import { getPagesCount } from '../utils/pages';
-import MyPagination from '../components/MyPagination';
+import MyPagination from '../components/UI/MyPagination';
 import { useObserver } from '../hooks/useObserver';
 import { useFetching } from '../hooks/useFetching';
-import LoaderError from '../components/LoaderError';
+import LoaderError from '../components/UI/LoaderError';
 
 
 const PostsPage = () => {

@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import UserService from '../services/UserService';
 import { useFetching } from '../hooks/useFetching';
 import { Container } from 'react-bootstrap';
-import LoaderError from '../components/LoaderError';
+import LoaderError from '../components/UI/LoaderError';
 
 const UserPage = () => {
   const params = useParams();

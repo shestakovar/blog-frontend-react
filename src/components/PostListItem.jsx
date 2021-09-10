@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import TimeString from './TimeString';
+import TimeString from './UI/TimeString';
 
 const Post = (props) => {
   return (

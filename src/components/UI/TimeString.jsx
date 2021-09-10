@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { timePassed } from '../utils/time';
+import { timePassed } from '../../utils/time';
 
 const TimeString = ({ string }) => {
   const [time, setTime] = useState(Date.now());

@@ -5,7 +5,7 @@ import PostService from '../services/PostService';
 import { Container } from 'react-bootstrap';
 import PostDetail from '../components/PostDetail';
 import { useFetching } from '../hooks/useFetching';
-import LoaderError from '../components/LoaderError';
+import LoaderError from '../components/UI/LoaderError';
 
 
 const PostDetailPage = () => {

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import PostService from '../services/PostService';
 import { useFetching } from '../hooks/useFetching';
-import LoaderError from '../components/LoaderError';
+import LoaderError from '../components/UI/LoaderError';
 
 const PostCreatePage = () => {
   const [post, setPost] = useState({ title: '', content: '' });

@@ -4,7 +4,7 @@ import AuthService from '../services/AuthService';
 import { AuthContext } from '../context';
 import { useHistory } from 'react-router-dom';
 import { useFetching } from '../hooks/useFetching';
-import LoaderError from '../components/LoaderError';
+import LoaderError from '../components/UI/LoaderError';
 
 const RegisterPage = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
