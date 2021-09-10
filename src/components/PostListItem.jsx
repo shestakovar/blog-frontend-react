@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
 
-const Post = (props) => {
+const PostListItem = (props) => {
   return (
     <Card className="my-3">
       <Card.Body>
@@ -19,4 +19,4 @@ const Post = (props) => {
   )
 }
 
-export default Post;
+export default PostListItem;

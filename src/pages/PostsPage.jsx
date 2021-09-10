@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import PostService from '../services/PostService';
-import Posts from '../components/PostList';
+import PostList from '../components/PostList';
 import { Container } from 'react-bootstrap';
 import { getPagesCount } from '../utils/pages';
 import MyPagination from '../components/UI/MyPagination';
@@ -44,7 +44,7 @@ const PostsPage = () => {
 
   return (
     <Container>
-      <Posts posts={posts} />
+      <PostList posts={posts} />
       <LoaderError isLoading={isLoading} error={error} />
       <div className="observer" ref={lastElement}></div>
       <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />

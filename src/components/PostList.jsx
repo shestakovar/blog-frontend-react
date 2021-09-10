@@ -1,12 +1,12 @@
 import React from 'react'
-import Post from './PostListItem'
+import PostListItem from './PostListItem'
 
-const Posts = ({ posts }) => {
+const PostList = ({ posts }) => {
   return (
     <div className="posts mt-4">
-      {posts.map(post => <Post post={post} key={post.id} />)}
+      {posts.map(post => <PostListItem post={post} key={post.id} />)}
     </div>
   )
 }
 
-export default Posts;
+export default PostList;
