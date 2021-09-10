@@ -10,7 +10,7 @@ export default class PostService {
     }
 
     static async getPost(id) {
-        const posts = await instance.get(`/posts/` + id);
+        const posts = await instance.get(`/posts/${id}/`);
         return posts.data;
     }
 
