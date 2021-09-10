@@ -5,7 +5,6 @@ import Header from "./components/Header"
 import Router from "./components/Router";
 import { AuthContext } from "./context";
 import { useFetching } from "./hooks/useFetching";
-import LoaderError from "./components/LoaderError";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -19,8 +18,11 @@ function App() {
 
   const checkLoad = async () => {
     await checkAuth();
-    if (!isAuth)
+    if (error) {
       localStorage.removeItem('username');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('token');
+    }
     setIsLoading(false);
   }
 
