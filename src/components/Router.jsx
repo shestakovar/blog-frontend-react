@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router';
 import { AuthContext } from '../context';
 import LoginPage from '../pages/LoginPage';
+import PostCreatePage from '../pages/PostCreatePage';
 import PostDetailPage from '../pages/PostDetailPage';
 import PostsPage from '../pages/PostsPage';
 import RegisterPage from '../pages/RegisterPage';
@@ -23,6 +24,7 @@ const Router = () => {
   ];
 
   const AuthRoutes = [
+    { path: "/posts/add", component: PostCreatePage, exact: false },
     ...everyoneRoutes,
   ]
 

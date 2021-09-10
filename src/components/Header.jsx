@@ -26,6 +26,10 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/" exact>Посты</Nav.Link>
+            {isAuth
+              ? <Nav.Link as={NavLink} to="/posts/add">Написать пост</Nav.Link>
+              : null
+            }
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">

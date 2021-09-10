@@ -17,6 +17,11 @@ export default class PostService {
         return posts.data;
     }
 
+    static async pushPost(post) {
+        const response = await auth_instance.post(`/posts/`, post);
+        return response.data;
+    }
+
     static async getComments(id) {
         const response = await instance.get(`/posts/${id}/comments/`);
         return response.data;
