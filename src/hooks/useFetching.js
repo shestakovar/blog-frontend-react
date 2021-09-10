@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export const useFetching = (callback) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const isMounted = useRef(false);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => { isMounted.current = false }
+  }, []);
 
   const fetching = async (...args) => {
     try {
@@ -18,7 +23,7 @@ export const useFetching = (callback) => {
             setError(e.message);
     }
     finally {
-        setIsLoading(false);
+        if (isMounted.current) setIsLoading(false);
     }
   }
 
