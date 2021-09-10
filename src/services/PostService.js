@@ -24,6 +24,11 @@ export default class PostService {
         return response.data;
     }
 
+    static async removePost(postid) {
+        const response = await auth_instance.delete(`/posts/${postid}/`);
+        return response.data;
+    }
+
     static async getComments(id) {
         const response = await instance.get(`/posts/${id}/comments/`);
         return response.data;

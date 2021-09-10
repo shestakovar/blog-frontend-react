@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import PostService from '../services/PostService';
 import { Container, Button } from 'react-bootstrap';
 import PostDetail from '../components/PostDetail';
@@ -16,12 +17,18 @@ const PostDetailPage = () => {
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const history = useHistory();
   const username = localStorage.getItem('username');
   const [fetchPost, isLoading, error] = useFetching(async () => {
     let response = await PostService.getPost(params.id);
     setPost(response);
     response = await PostService.getComments(params.id)
     setComments(response);
+  })
+
+  const [removePost, isRemoveLoading, removeError] = useFetching(async () => {
+    let response = await PostService.removePost(params.id);
+    history.goBack();
   })
 
   useEffect(() => {
@@ -35,11 +42,18 @@ const PostDetailPage = () => {
 
   return (
     <Container className="mt-4">
+      <LoaderError isLoading={isRemoveLoading} error={removeError} />
       {editMode
         ? <PostDetailEdit post={post} setPost={setPost} setEditMode={setEditMode} />
         : <React.Fragment>
           <PostDetail post={post} />
-          {username === post.author ? <Button onClick={e => setEditMode(!editMode)}>Редактировать</Button> : null}
+          {username === post.author
+            ? <React.Fragment>
+              <Button onClick={e => setEditMode(!editMode)}>Редактировать</Button>
+              <Button variant="danger" onClick={removePost}>Удалить</Button>
+            </React.Fragment>
+            : null
+          }
         </React.Fragment>
       }
 
