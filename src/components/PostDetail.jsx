@@ -5,6 +5,7 @@ import { AuthContext } from '../context';
 import { NavLink } from 'react-router-dom';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from './LoaderError';
+import TimeString from './TimeString';
 
 const PostDetail = (props) => {
   let [newComment, setNewComment] = useState('');
@@ -25,7 +26,7 @@ const PostDetail = (props) => {
       <Card className="my-3">
         <Card.Body>
           <Card.Title>{props.post.title}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{props.post.author} {props.post.created}</Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted">{props.post.author} <TimeString string={props.post.created} /></Card.Subtitle>
           <Card.Text>
             {props.post.content}
           </Card.Text>
