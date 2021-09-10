@@ -8,7 +8,7 @@ import LoaderError from '../components/UI/LoaderError';
 
 const RegisterPage = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '' });
   const history = useHistory();
 
   const [login, isLoading, error, validated] = useFormFetching(async () => {

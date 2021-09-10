@@ -8,10 +8,10 @@ import { useFormFetching } from '../hooks/useFormFetching';
 
 const UserPage = () => {
   const params = useParams();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '', last_login: '', date_joined: '' });
   const [fetchUser, isLoading, error] = useFetching(async () => {
     const response = await UserService.getUser(params.id);
-    setUserData(response);
+    setUserData({password: '', ...response});
   });
 
   const [updateUser, isUpdatingUser, updateUserError, validated] = useFormFetching(async () => {
