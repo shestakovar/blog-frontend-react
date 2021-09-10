@@ -6,7 +6,8 @@ const PostCommentList = ({ comments }) => {
     return null;
 
   return (
-    <div className="post_comment_list">
+    <div className="post_comment_list mt-4">
+      <h2>Комментарии: </h2>
       {comments.map(comm =>
         <PostCommentListItem comment={comm} key={comm.id} />
       )}

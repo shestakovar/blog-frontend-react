@@ -50,7 +50,7 @@ const PostDetailPage = () => {
           {username === post.author
             ? <React.Fragment>
               <Button onClick={e => setEditMode(!editMode)}>Редактировать</Button>
-              <Button variant="danger" onClick={removePost}>Удалить</Button>
+              <Button className="ms-2" variant="danger" onClick={removePost}>Удалить</Button>
             </React.Fragment>
             : null
           }
