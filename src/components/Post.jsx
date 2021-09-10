@@ -11,7 +11,7 @@ const Post = (props) => {
         <Card.Text>
           {props.post.content}
         </Card.Text>
-        <Card.Link as={Link} to={`${props.post.id}`}>Перейти к посту</Card.Link>
+        <Card.Link as={Link} to={`/${props.post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>
       <Card.Footer className="text-muted">Комментариев: {props.post.comment_count}</Card.Footer>
     </Card>
