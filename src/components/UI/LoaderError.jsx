@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 
 const LoaderError = ({ isLoading, error }) => {
   const [showLoader, setShowLoader] = useState(false);
@@ -24,7 +24,9 @@ const LoaderError = ({ isLoading, error }) => {
       )
   if (showLoader && isLoading)
     return (
-      <div>'Загрузка...'</div>
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
     )
   return null;
 }

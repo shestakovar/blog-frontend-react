@@ -7,14 +7,13 @@ import PostDetailPage from '../pages/PostDetailPage';
 import PostListPage from '../pages/PostListPage';
 import RegisterPage from '../pages/RegisterPage';
 import UserPage from '../pages/UserPage';
+import LoaderError from './UI/LoaderError';
 
 const Router = () => {
   const { isAuth, isLoading } = useContext(AuthContext);
 
   if (isLoading) {
-    return (
-      <div>Загрузка</div>
-    )
+    return <LoaderError isLoading={isLoading}></LoaderError>
   }
 
   const everyoneRoutes = [
