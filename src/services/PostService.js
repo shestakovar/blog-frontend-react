@@ -1,13 +1,10 @@
 import { instance, auth_instance } from '../api'
 
 export default class PostService {
-    static async getPosts(limit = 5, page = 0) {
+    static async getPosts(limit = 5, page = 0, author = null) {
         const offset = page * limit;
         const posts = await instance.get(`/posts/`, {
-            params: {
-                limit: limit,
-                offset: offset,
-            }
+            params: { limit, offset, author }
         });
         return posts.data;
     }

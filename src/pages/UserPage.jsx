@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import UserService from '../services/UserService';
 import { useFetching } from '../hooks/useFetching';
 import { Container } from 'react-bootstrap';
+import LoaderError from '../components/LoaderError';
 
 const UserPage = () => {
   const params = useParams();
@@ -18,6 +19,7 @@ const UserPage = () => {
 
   return (
     <Container>
+      <LoaderError isLoading={isLoading} error={error} />
       <div>{user.username}</div>
       <div>{user.first_name}</div>
       <div>{user.last_name}</div>

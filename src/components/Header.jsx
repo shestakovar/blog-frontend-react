@@ -27,7 +27,10 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/" exact>Посты</Nav.Link>
             {isAuth
-              ? <Nav.Link as={NavLink} to="/posts/add">Написать пост</Nav.Link>
+              ? <React.Fragment>
+                <Nav.Link as={NavLink} to={`/posts/${userid}`}>Мои посты</Nav.Link>
+                <Nav.Link as={NavLink} to="/posts/add">Написать пост</Nav.Link>
+              </React.Fragment>
               : null
             }
           </Nav>

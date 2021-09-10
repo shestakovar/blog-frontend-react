@@ -25,6 +25,7 @@ const Router = () => {
 
   const AuthRoutes = [
     { path: "/posts/add", component: PostCreatePage, exact: false },
+    { path: "/posts/:id(\\d+)", component: PostsPage, exact: true },
     ...everyoneRoutes,
   ]
 
