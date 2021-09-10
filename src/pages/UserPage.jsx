@@ -17,9 +17,13 @@ const UserPage = () => {
     fetchUser();
   }, [])
 
+  if (isLoading || error)
+    return (
+      <LoaderError isLoading={isLoading} error={error} />
+    )
+
   return (
     <Container>
-      <LoaderError isLoading={isLoading} error={error} />
       <div>{user.username}</div>
       <div>{user.first_name}</div>
       <div>{user.last_name}</div>

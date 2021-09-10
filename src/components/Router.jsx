@@ -4,7 +4,7 @@ import { AuthContext } from '../context';
 import LoginPage from '../pages/LoginPage';
 import PostCreatePage from '../pages/PostCreatePage';
 import PostDetailPage from '../pages/PostDetailPage';
-import PostsPage from '../pages/PostsPage';
+import PostListPage from '../pages/PostListPage';
 import RegisterPage from '../pages/RegisterPage';
 import UserPage from '../pages/UserPage';
 
@@ -18,14 +18,14 @@ const Router = () => {
   }
 
   const everyoneRoutes = [
-    { path: "/", component: PostsPage, exact: true },
+    { path: "/", component: PostListPage, exact: true },
     { path: "/:id(\\d+)", component: PostDetailPage, exact: true },
     { path: "/users/:id", component: UserPage, exact: false },
   ];
 
   const AuthRoutes = [
     { path: "/posts/add", component: PostCreatePage, exact: false },
-    { path: "/posts/:id(\\d+)", component: PostsPage, exact: true },
+    { path: "/posts/:id(\\d+)", component: PostListPage, exact: true },
     ...everyoneRoutes,
   ]
 

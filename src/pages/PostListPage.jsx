@@ -11,7 +11,7 @@ import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/UI/LoaderError';
 
 
-const PostsPage = () => {
+const PostListPage = () => {
   const params = useParams();
   const author = params.id;
   const [posts, setPosts] = useState([]);
@@ -43,14 +43,13 @@ const PostsPage = () => {
   });
 
   return (
-    <Container>
+    <Container className="mt-4">
       <PostList posts={posts} />
       <LoaderError isLoading={isLoading} error={error} />
       <div className="observer" ref={lastElement}></div>
       <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
     </Container>
-
   )
 }
 
-export default PostsPage;
+export default PostListPage;

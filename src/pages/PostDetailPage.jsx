@@ -6,6 +6,8 @@ import { Container } from 'react-bootstrap';
 import PostDetail from '../components/PostDetail';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/UI/LoaderError';
+import PostCommentList from '../components/PostCommentList';
+import PostCommentAddForm from '../components/PostCommentAddForm';
 
 
 const PostDetailPage = () => {
@@ -23,9 +25,16 @@ const PostDetailPage = () => {
     fetchPost();
   }, [])
 
+  if (isLoading || error)
+    return (
+      <LoaderError isLoading={isLoading} error={error} />
+    )
+
   return (
-    <Container>
-      {!isLoading ? <PostDetail post={post} comments={comments} setComments={setComments} /> : <LoaderError isLoading={isLoading} error={error} />}
+    <Container className="mt-4">
+      <PostDetail post={post} />
+      <PostCommentList comments={comments} />
+      <PostCommentAddForm postid={post?.id} setComments={setComments} />
     </Container>
   )
 }

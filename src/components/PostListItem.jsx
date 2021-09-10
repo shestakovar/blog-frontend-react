@@ -3,18 +3,21 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
 
-const PostListItem = (props) => {
+const PostListItem = ({ post }) => {
+  if (!post)
+    return null;
+
   return (
     <Card className="my-3">
       <Card.Body>
-        <Card.Title>{props.post.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{props.post.author} <TimeString string={props.post.created} /></Card.Subtitle>
+        <Card.Title>{post.title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
         <Card.Text>
-          {props.post.content}
+          {post.content}
         </Card.Text>
-        <Card.Link as={Link} to={`/${props.post.id}`}>Перейти к посту</Card.Link>
+        <Card.Link as={Link} to={`/${post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>
-      <Card.Footer className="text-muted">Комментариев: {props.post.comment_count}</Card.Footer>
+      <Card.Footer className="text-muted">Комментариев: {post.comment_count}</Card.Footer>
     </Card>
   )
 }
