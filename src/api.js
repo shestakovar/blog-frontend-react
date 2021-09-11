@@ -1,5 +1,7 @@
 import axios from "axios";
 import AuthService from "./services/AuthService";
+import { logoutAction, refreshAction } from "./store/store";
+import store from "./store/store";
 
 const API_URL = "http://localhost:8000/api"
 
@@ -27,9 +29,10 @@ auth_instance.interceptors.response.use((config) => { return config }, async (er
         origRequest._isRetry = true;
         try {
             const response = await AuthService.refresh();
-            localStorage.setItem('token', response.access);
+            store.dispatch(refreshAction(response));
             return auth_instance.request(origRequest);
         } catch (e) {
+            store.dispatch(logoutAction());
             console.log(e?.response?.data?.detail)
         }
     }

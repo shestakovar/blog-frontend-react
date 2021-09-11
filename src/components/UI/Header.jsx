@@ -1,21 +1,20 @@
-import React, { useContext } from 'react'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../../context';
-import { useFetching } from '../../hooks/useFetching';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import AuthService from '../../services/AuthService';
+import { useFetching } from '../../hooks/useFetching';
+import { logoutAction } from '../../store/store';
 
 const Header = () => {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
-  const username = localStorage.getItem('username');
-  const userid = localStorage.getItem('userid');
+  const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.isAuth);
+  const username = useSelector(state => state.username);
+  const userid = useSelector(state => state.userid);
 
   const [logout, isLoading, error] = useFetching(async () => {
     await AuthService.logout();
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('userid');
-    setIsAuth(false);
+    dispatch(logoutAction());
   })
 
   return (

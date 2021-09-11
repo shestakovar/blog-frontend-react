@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
-import { AuthContext } from '../context';
-import { useHistory } from 'react-router-dom';
 import TwoColumnsForm from '../components/UI/TwoColumnsForm';
+import { loginAction } from '../store/store';
 
 const RegisterPage = () => {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const userid = useSelector(state => state.isAuth);
   const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '' });
   const history = useHistory();
   const [userDataPrint, setUserDataPrint] = useState({
@@ -20,10 +22,8 @@ const RegisterPage = () => {
   const register = async () => {
     await AuthService.register(userData);
     const response = await AuthService.login(userData.username, userData.password);
-    localStorage.setItem('token', response.access);
-    localStorage.setItem('username', userData.username);
-    localStorage.setItem('userid', response.userid);
-    setIsAuth(true);
+    const username = userData.username;
+    dispatch(loginAction({response, username}));
     history.push(`/users/${response.userid}`);
   }
 

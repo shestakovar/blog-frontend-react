@@ -1,9 +1,9 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import PostService from '../services/PostService';
 import { Container, Button } from 'react-bootstrap';
+import PostService from '../services/PostService';
 import PostDetail from '../components/PostDetail';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/UI/LoaderError';
@@ -18,7 +18,7 @@ const PostDetailPage = () => {
   const [comments, setComments] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const history = useHistory();
-  const username = localStorage.getItem('username');
+  const username = useSelector(state => state.username);
   const [fetchPost, isLoading, error] = useFetching(async () => {
     let response = await PostService.getPost(params.id);
     setPost(response);

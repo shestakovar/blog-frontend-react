@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react'
-import { AuthContext } from '../context';
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { Button, Form, Alert } from 'react-bootstrap';
 import { useFormFetching } from '../hooks/useFormFetching';
 import PostService from "../services/PostService";
 import LoaderError from './UI/LoaderError';
-import { Button, Form, Alert } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 
 const PostCommentAddForm = (props) => {
   const [newComment, setNewComment] = useState('');
-  const { isAuth } = useContext(AuthContext);
+  const isAuth = useSelector(state => state.isAuth);
 
   const [addNewComment, isLoading, error, validated] = useFormFetching(async () => {
     const newPushComment = {

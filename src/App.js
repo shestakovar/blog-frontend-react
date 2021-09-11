@@ -1,46 +1,43 @@
 import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import AuthService from "./services/AuthService";
 import Header from "./components/UI/Header"
 import Router from "./components/Router";
-import { AuthContext } from "./context";
 import { useFetching } from "./hooks/useFetching";
+import LoaderError from "./components/UI/LoaderError";
+import store, { logoutAction, refreshAction } from "./store/store";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const [checkAuth, isResponseLoading, error] = useFetching(async () => {
     const response = await AuthService.refresh();
-    localStorage.setItem('token', response.access);
-    setIsAuth(true);
+    store.dispatch(refreshAction(response));
   })
 
-  const checkLoad = async () => {
-    await checkAuth();
-    if (error) {
-      localStorage.removeItem('username');
-      localStorage.removeItem('userid');
-      localStorage.removeItem('token');
-    }
-    setIsLoading(false);
-  }
-
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      checkLoad();
-    }
-    else {
+    const wrapper = async () => {
+      if (localStorage.getItem('token')) {
+        await checkAuth();
+        if (error)
+          store.dispatch(logoutAction())
+      }
       setIsLoading(false);
     }
+    wrapper();
   }, [])
+
+  if (isLoading)
+    return <LoaderError isLoading={isLoading}></LoaderError>
+
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth, isLoading }}>
+    <Provider store={store}>
       <BrowserRouter>
         <Header />
         <Router />
       </BrowserRouter>
-    </AuthContext.Provider>
+    </Provider>
   );
 }
 

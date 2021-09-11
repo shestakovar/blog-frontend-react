@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import { Container, Button, Alert } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
-import { AuthContext } from '../context';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import TwoColumnsForm from '../components/UI/TwoColumnsForm';
+import { loginAction } from '../store/store';
 
 const LoginPage = () => {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
-  const [userData, setUserData] = useState({ username: '', password: '' });
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState({ username: '', password: '' });
   const [userDataPrint, setUserDataPrint] = useState({
     username: { name: 'логин', required: true },
     password: { name: 'пароль', type: 'password', required: true },
@@ -17,10 +17,8 @@ const LoginPage = () => {
 
   const login = async (event) => {
     const response = await AuthService.login(userData.username, userData.password);
-    localStorage.setItem('token', response.access);
-    localStorage.setItem('username', userData.username);
-    localStorage.setItem('userid', response.userid);
-    setIsAuth(true);
+    const username = userData.username;
+    dispatch(loginAction({response, username}));
     history.goBack();
   }
 

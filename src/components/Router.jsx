@@ -1,20 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router';
-import { AuthContext } from '../context';
 import LoginPage from '../pages/LoginPage';
 import PostCreatePage from '../pages/PostCreatePage';
 import PostDetailPage from '../pages/PostDetailPage';
 import PostListPage from '../pages/PostListPage';
 import RegisterPage from '../pages/RegisterPage';
 import UserPage from '../pages/UserPage';
-import LoaderError from './UI/LoaderError';
 
 const Router = () => {
-  const { isAuth, isLoading } = useContext(AuthContext);
-
-  if (isLoading) {
-    return <LoaderError isLoading={isLoading}></LoaderError>
-  }
+  const isAuth = useSelector(state => state.isAuth);
 
   const everyoneRoutes = [
     { path: "/", component: PostListPage, exact: true },
