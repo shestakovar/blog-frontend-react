@@ -27,7 +27,7 @@ const PostDetailPage = () => {
   })
 
   const [removePost, isRemoveLoading, removeError] = useFetching(async () => {
-    let response = await PostService.removePost(params.id);
+    await PostService.removePost(params.id);
     history.goBack();
   })
 
