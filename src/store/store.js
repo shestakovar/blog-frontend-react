@@ -43,7 +43,7 @@ const reducer = (state = defaultState, action) => {
         case REFRESH:
             return refresh(state, action.payload);
         default:
-            return login(state);
+            return state;
     }
 }
 

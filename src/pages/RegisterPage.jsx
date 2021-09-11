@@ -8,7 +8,6 @@ import { loginAction } from '../store/store';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  const userid = useSelector(state => state.isAuth);
   const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '' });
   const history = useHistory();
   const [userDataPrint, setUserDataPrint] = useState({
