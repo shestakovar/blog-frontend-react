@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { excToMessage } from '../utils/error';
 
 export const useFetching = (callback) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,12 +16,7 @@ export const useFetching = (callback) => {
         await callback(...args);
     }
     catch (e) {
-        if (e?.response?.data?.detail)
-            setError(e?.response?.data?.detail);
-        else if (e?.response?.data)
-            setError(e?.response?.data);
-        else
-            setError(e.message);
+        setError(excToMessage(e));
     }
     finally {
         if (isMounted.current) setIsLoading(false);
