@@ -1,19 +1,19 @@
 import React from 'react';
 import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
+import { useFormValidation } from '../../hooks/useFormValidation';
 import LoaderError from './LoaderError';
-import { useFormFetching } from '../../hooks/useFormFetching';
 import classes from './TwoColumnsForm.module.css';
 
-const TwoColumnsForm = ({ data, setData, dataPrint, callback, btnText }) => {
+const TwoColumnsForm = ({ data, setData, dataPrint, submitAction, btnText, isLoading, error }) => {
 
-  const [updateData, isUpdatingData, updateDataError, validated] = useFormFetching(async () => {
-    await callback();
-  })
+  const [submit, validated] = useFormValidation(async () => {
+    await submitAction();
+  });
 
   return (
     <div className="mt-4">
-      <LoaderError isLoading={isUpdatingData} error={updateDataError} />
-      <Form noValidate validated={validated} onSubmit={updateData} >
+      <LoaderError isLoading={isLoading} error={error} />
+      <Form noValidate validated={validated} onSubmit={submit} >
         {Object.keys(dataPrint).map(key =>
           <Form.Group as={Row} className="mb-3" controlId={`form${key}`} key={`form${key}`}>
             <Form.Label className={classes.lbl} column sm="3" >{dataPrint[key].name}</Form.Label>

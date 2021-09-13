@@ -1,8 +1,8 @@
 import { cred_instance, instance } from '../api'
 
 export default class AuthService {
-    static async login(username, password) {
-        const response = await cred_instance.post(`/token/`, { username, password });
+    static async login(user) {
+        const response = await cred_instance.post(`/token/`, user);
         return response.data;
     }
 

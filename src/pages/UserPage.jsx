@@ -7,9 +7,11 @@ import LoaderError from '../components/UI/LoaderError';
 import TwoColumnsEditForm from '../components/UI/TwoColumnsEditForm';
 import { removeEmpty } from '../utils/object';
 import { timePassed, addHours } from '../utils/time';
+import { useSelector } from 'react-redux';
 
 const UserPage = () => {
   const params = useParams();
+  const user = useSelector(state => state);
   const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '', last_login: '', date_joined: '' });
   const [userDataPrint, setUserDataPrint] = useState({
     username: { name: 'логин', required: true, readOnly: true },
@@ -26,15 +28,25 @@ const UserPage = () => {
     setUserData((state) => ({ ...state, last_login: timePassed(state.last_login), date_joined: addHours(state.date_joined) }));
   });
 
-  const updateUser = async () => {
+  const [updateUser, isLoadingUpdate, errorUpdate] = useFetching(async () => {
     const updated = removeEmpty(userData);
     const response = await UserService.patchUser(params.id, updated);
     setUserData({ password: '', ...response });
-  }
+  });
 
   useEffect(() => {
     fetchUser();
-  }, [])
+  }, [user.userid, params.id]);
+
+  useEffect(() => {
+    if (!user.loading && (!user.isAuth || user.userid != params.id)) {
+      const readOnlyPrint = JSON.parse(JSON.stringify(userDataPrint));
+      Object.keys(readOnlyPrint).forEach((k) => { readOnlyPrint[k].plainText = true });
+      readOnlyPrint.password.hidden = true;
+      setUserDataPrint(readOnlyPrint);
+    }
+  }, [user.loading, user.isAuth, user.userid, params.id])
+
 
   if (isLoading || error)
     return (
@@ -48,7 +60,9 @@ const UserPage = () => {
         setData={setUserData}
         dataPrint={userDataPrint}
         setDataPrint={setUserDataPrint}
-        callback={updateUser}
+        submitAction={updateUser}
+        isLoading={isLoadingUpdate}
+        error={errorUpdate}
       ></TwoColumnsEditForm>
     </Container >
   )

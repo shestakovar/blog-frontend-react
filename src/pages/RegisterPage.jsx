@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
 import TwoColumnsForm from '../components/UI/TwoColumnsForm';
-import { loginAction } from '../store/store';
+import { useFetching } from '../hooks/useFetching';
+import { useAction } from '../hooks/useAction';
 
 const RegisterPage = () => {
-  const dispatch = useDispatch();
+  const { loginUser } = useAction();
+  const user = useSelector(store => store);
   const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '' });
   const history = useHistory();
-  const [userDataPrint, setUserDataPrint] = useState({
+  const userDataPrint = {
     username: { name: 'логин', required: true },
     password: { name: 'пароль', type: 'password', required: true },
     first_name: { name: 'имя', required: true },
     last_name: { name: 'фамилия', required: true },
     email: { name: 'электронная почта', type: 'email', required: true },
-  });
+  };
 
-  const register = async () => {
+  const [register, isLoading, error] = useFetching(async () => {
     await AuthService.register(userData);
-    const response = await AuthService.login(userData.username, userData.password);
-    const username = userData.username;
-    dispatch(loginAction({response, username}));
-    history.push(`/users/${response.userid}`);
-  }
+    const response = await loginUser(userData.username, userData.password);
+    if (!user.loading && !user.error && user.isAuth)
+      history.push(`/users/${response.userid}`);
+  });
 
   return (
     <Container className="mt-4">
@@ -32,8 +33,10 @@ const RegisterPage = () => {
         data={userData}
         setData={setUserData}
         dataPrint={userDataPrint}
-        callback={register}
+        submitAction={register}
         btnText="Зарегистрироваться"
+        isLoading={isLoading}
+        error={error}
       ></TwoColumnsForm>
     </Container>
   )

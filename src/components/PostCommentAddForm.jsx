@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Button, Form, Alert } from 'react-bootstrap';
-import { useFormFetching } from '../hooks/useFormFetching';
+import { useFetching } from '../hooks/useFetching';
+import { useFormValidation } from '../hooks/useFormValidation';
 import PostService from "../services/PostService";
 import LoaderError from './UI/LoaderError';
 
@@ -10,7 +11,7 @@ const PostCommentAddForm = (props) => {
   const [newComment, setNewComment] = useState('');
   const isAuth = useSelector(state => state.isAuth);
 
-  const [addNewComment, isLoading, error, validated] = useFormFetching(async () => {
+  const [submitAction, isLoading, error] = useFetching(async () => {
     const newPushComment = {
       content: newComment,
     };
@@ -19,6 +20,10 @@ const PostCommentAddForm = (props) => {
     props.setComments(response);
     setNewComment('');
   })
+
+  const [addNewComment, validated] = useFormValidation(async () => {
+    await submitAction();
+  });
 
   return (
     <div className="mt-4">

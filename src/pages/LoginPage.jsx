@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { Container, Button, Alert } from 'react-bootstrap'
-import AuthService from '../services/AuthService';
 import TwoColumnsForm from '../components/UI/TwoColumnsForm';
-import { loginAction } from '../store/store';
+import { useAction } from "../hooks/useAction";
 
 const LoginPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const user = useSelector(state => state);
+  const { loginUser } = useAction();
   const [userData, setUserData] = useState({ username: '', password: '' });
-  const [userDataPrint, setUserDataPrint] = useState({
+  const userDataPrint = {
     username: { name: 'логин', required: true },
     password: { name: 'пароль', type: 'password', required: true },
-  });
+  };
 
-  const login = async (event) => {
-    const response = await AuthService.login(userData.username, userData.password);
-    const username = userData.username;
-    dispatch(loginAction({response, username}));
-    history.goBack();
+  const login = async () => {
+    await loginUser(userData);
+    if (!user.loading && !user.error && user.isAuth)
+      history.goBack();
   }
 
   return (
-    <Container className="mt-4">
+    <Container className="login_page mt-4">
       <TwoColumnsForm
         data={userData}
         setData={setUserData}
         dataPrint={userDataPrint}
-        callback={login}
+        submitAction={login}
         btnText="Войти"
+        isLoading={user.loading}
+        error={user.error}
       ></TwoColumnsForm>
       <Alert variant="secondary" className="mt-4">
         Еще не зарегистрированы?
       </Alert>
-      <Button as={Link} to="/register"> Зарегистрироваться</Button>
+      <Button as={Link} to="/register">Зарегистрироваться</Button>
     </Container>
   )
 }

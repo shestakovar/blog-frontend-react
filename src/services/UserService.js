@@ -1,9 +1,9 @@
-import { auth_instance } from '../api'
+import { auth_instance, instance } from '../api'
 
 export default class UserService {
 
     static async getUser(id) {
-        const posts = await auth_instance.get(`/users/${id}/`);
+        const posts = await instance.get(`/users/${id}/`);
         return posts.data;
     }
 

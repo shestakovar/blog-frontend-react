@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import LoaderError from './LoaderError';
-import { useFormFetching } from '../../hooks/useFormFetching';
+import { useFormValidation } from '../../hooks/useFormValidation';
 import classes from './TwoColumnsForm.module.css';
 
-const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, callback }) => {
+const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, submitAction, isLoading, error }) => {
   const [initialState, setInitialState] = useState(dataPrint);
   const isMounted = useRef(false);
 
@@ -13,17 +13,17 @@ const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, callback }
     return () => { isMounted.current = false }
   }, []);
 
-  const [updateData, isUpdatingData, updateDataError, validated] = useFormFetching(async () => {
-    await callback();
+  const [submit, validated] = useFormValidation(async () => {
+    await submitAction();
     if (isMounted.current) setDataPrint(initialState);
-  })
+  });
 
   return (
     <div className="mt-4">
-      <LoaderError isLoading={isUpdatingData} error={updateDataError} />
-      <Form noValidate validated={validated} onSubmit={updateData} >
+      <LoaderError isLoading={isLoading} error={error} />
+      <Form noValidate validated={validated} onSubmit={submit} >
         {Object.keys(dataPrint).map(key =>
-          <Form.Group as={Row} className="mb-3" controlId={`form${key}`} key={`form${key}`}>
+          <Form.Group hidden={dataPrint[key].hidden} as={Row} className="mb-3" controlId={`form${key}`} key={`form${key}`}>
             <Form.Label className={classes.lbl} column sm="2" >{dataPrint[key].name}</Form.Label>
             <Col sm="10">
               <InputGroup className="mb-3">

@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
-import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import AuthService from "./services/AuthService";
 import Header from "./components/UI/Header"
 import Router from "./components/Router";
-import { useFetching } from "./hooks/useFetching";
 import LoaderError from "./components/UI/LoaderError";
-import store, { logoutAction, refreshAction } from "./store/store";
+import { useAction } from "./hooks/useAction";
 
 function App() {
+  const user = useSelector(state => state);
+  const { logoutUser, refreshUser } = useAction();
   const [isLoading, setIsLoading] = useState(true);
-
-  const [checkAuth, isResponseLoading, error] = useFetching(async () => {
-    const response = await AuthService.refresh();
-    store.dispatch(refreshAction(response));
-  })
 
   useEffect(() => {
     const wrapper = async () => {
       if (localStorage.getItem('token')) {
-        await checkAuth();
-        if (error)
-          store.dispatch(logoutAction())
+        await refreshUser();
+        if (user.error) {
+          await logoutUser();
+        }
       }
       setIsLoading(false);
     }
@@ -32,12 +28,10 @@ function App() {
     return <LoaderError isLoading={isLoading}></LoaderError>
 
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Header />
-        <Router />
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Header />
+      <Router />
+    </BrowserRouter>
   );
 }
 

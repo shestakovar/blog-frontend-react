@@ -1,21 +1,19 @@
 import React from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import AuthService from '../../services/AuthService';
-import { useFetching } from '../../hooks/useFetching';
-import { logoutAction } from '../../store/store';
+import { useAction } from '../../hooks/useAction';
+
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const { logoutUser } = useAction()
   const isAuth = useSelector(state => state.isAuth);
   const username = useSelector(state => state.username);
   const userid = useSelector(state => state.userid);
 
-  const [logout, isLoading, error] = useFetching(async () => {
-    await AuthService.logout();
-    dispatch(logoutAction());
-  })
+  const logout = async () => {
+    await logoutUser();
+  };
 
   return (
     <Navbar bg="light" expand="lg">

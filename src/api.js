@@ -1,7 +1,5 @@
 import axios from "axios";
-import AuthService from "./services/AuthService";
-import { logoutAction, refreshAction } from "./store/store";
-import store from "./store/store";
+import { logoutUser, refreshUser } from "./store/actions/user";
 
 const API_URL = "http://localhost:8000/api"
 
@@ -28,11 +26,10 @@ auth_instance.interceptors.response.use((config) => { return config }, async (er
     if (error.response.status == 401 && error.config && !error.config._isRetry) {
         origRequest._isRetry = true;
         try {
-            const response = await AuthService.refresh();
-            store.dispatch(refreshAction(response));
+            await refreshUser();
             return auth_instance.request(origRequest);
         } catch (e) {
-            store.dispatch(logoutAction());
+            await logoutUser();
             console.log(e?.response?.data?.detail)
         }
     }
