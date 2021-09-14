@@ -22,9 +22,8 @@ const RegisterPage = () => {
 
   const [register, isLoading, error] = useFetching(async () => {
     await AuthService.register(userData);
-    const response = await loginUser(userData.username, userData.password);
-    if (!user.loading && !user.error && user.isAuth)
-      history.push(`/users/${response.userid}`);
+    const thunk = (response) => (history.push(`/users/${response.userid}`));
+    await loginUser(userData, thunk);
   });
 
   return (

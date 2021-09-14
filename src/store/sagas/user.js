@@ -23,6 +23,8 @@ function* loginUserWorker(action) {
         yield put(loginUserBegin());
         const response = yield call(AuthService.login, action.payload);
         yield call(fillLocalStorage, action.payload.username, response.access, response.userid);
+        if (action?.history)
+            action.history(response);
         yield put(loginUserSuccess({ response, username: action.payload.username }));
     }
     catch (e) {

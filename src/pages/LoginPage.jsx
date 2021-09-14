@@ -16,9 +16,8 @@ const LoginPage = () => {
   };
 
   const login = async () => {
-    await loginUser(userData);
-    if (!user.loading && !user.error && user.isAuth)
-      history.goBack();
+    const historyAction = history.goBack;
+    await loginUser(userData, historyAction);
   }
 
   return (

@@ -15,9 +15,6 @@ function App() {
     const wrapper = async () => {
       if (localStorage.getItem('token')) {
         await refreshUser();
-        if (user.error) {
-          await logoutUser();
-        }
       }
       setIsLoading(false);
     }
