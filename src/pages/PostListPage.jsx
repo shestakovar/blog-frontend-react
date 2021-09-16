@@ -49,10 +49,10 @@ const PostListPage = () => {
 
   return (
     <Container className="mt-4">
+      <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
       <PostList posts={posts} />
       <LoaderError isLoading={isLoading} error={error} />
       <div className="observer" ref={lastElement}></div>
-      <MyPagination page={indicatorPage} countPages={countPages} changePage={changePage} />
     </Container>
   )
 }
