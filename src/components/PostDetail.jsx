@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import TimeString from './UI/TimeString';
 
 const PostDetail = ({ post }) => {
-  if (!post)
+  if (!post.content)
     return null;
 
   return (
@@ -12,7 +12,7 @@ const PostDetail = ({ post }) => {
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
         <Card.Text>
-          {post.content}
+          {post.content.split('\n').map(str => <p>{str}</p>)}
         </Card.Text>
       </Card.Body>
     </Card>

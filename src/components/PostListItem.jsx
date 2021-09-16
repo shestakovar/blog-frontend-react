@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
 
 const PostListItem = ({ post }) => {
-  if (!post)
+  if (!post.content)
     return null;
 
   return (
@@ -12,8 +12,8 @@ const PostListItem = ({ post }) => {
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
-        <Card.Text>
-          {post.content}
+        <Card.Text as="div" className="card_text">
+          {post.content.split('\n').map(str => <p>{str}</p>)}
         </Card.Text>
         <Card.Link as={Link} to={`/${post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>

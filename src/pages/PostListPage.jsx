@@ -23,6 +23,11 @@ const PostListPage = () => {
 
   const [fetchPosts, isLoading, error] = useFetching(async () => {
     const response = await PostService.getPosts(limit, page, author);
+    response.results = response.results.map(post => {
+      if (post.content.length > 200)
+        post.content = post.content.slice(0, 200) + '...';
+      return post;
+    })
     setPosts([...posts, ...response.results]);
     const count = response.count;
     setCountPages(getPagesCount(count, limit));
