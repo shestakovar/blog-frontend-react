@@ -11,8 +11,8 @@ const PostDetail = ({ post }) => {
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
-        <Card.Text>
-          {post.content.split('\n').map(str => <p>{str}</p>)}
+        <Card.Text as="div">
+          {post.content.split('\n').map((str, index) => <p key={index}>{str}</p>)}
         </Card.Text>
       </Card.Body>
     </Card>

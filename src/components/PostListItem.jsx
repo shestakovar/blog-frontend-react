@@ -13,7 +13,7 @@ const PostListItem = ({ post }) => {
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
         <Card.Text as="div" className="card_text">
-          {post.content.split('\n').map(str => <p>{str}</p>)}
+          {post.content.split('\n').map((str, index) => <p key={index}>{str}</p>)}
         </Card.Text>
         <Card.Link as={Link} to={`/${post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>
