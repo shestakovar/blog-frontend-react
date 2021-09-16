@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
@@ -9,7 +8,6 @@ import { useAction } from '../hooks/useAction';
 
 const RegisterPage = () => {
   const { loginUser } = useAction();
-  const user = useSelector(store => store);
   const [userData, setUserData] = useState({ username: '', password: '', first_name: '', last_name: '', email: '' });
   const history = useHistory();
   const userDataPrint = {
