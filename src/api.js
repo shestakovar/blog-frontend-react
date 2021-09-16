@@ -1,5 +1,6 @@
 import axios from "axios";
 import { logoutUser, refreshUser } from "./store/actions/user";
+import store from "./store/store"
 
 const API_URL = "http://localhost:8000/api"
 
@@ -25,13 +26,13 @@ auth_instance.interceptors.response.use((config) => { return config }, async (er
     const origRequest = error.config;
     if (error.response.status == 401 && error.config && !error.config._isRetry) {
         origRequest._isRetry = true;
-        try {
-            await refreshUser();
-            return auth_instance.request(origRequest);
-        } catch (e) {
-            await logoutUser();
-            console.log(e?.response?.data?.detail)
-        }
+        await store.dispatch(refreshUser());
+        return auth_instance.request(origRequest);
+    }
+    const err = store.getState().error;
+    if (err) {
+        await store.dispatch(logoutUser());
+        console.log(err);
     }
     throw error;
 })
