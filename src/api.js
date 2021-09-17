@@ -18,7 +18,8 @@ export const cred_instance = axios.create({
 })
 
 auth_instance.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+    const token = store.getState().token;
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
 })
 
