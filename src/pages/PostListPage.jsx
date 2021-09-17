@@ -54,7 +54,7 @@ const PostListPage = () => {
     fetchPosts(page, posts);
   }, [page])
 
-  useObserver(lastElement, isLoading, page < countPages - 1, () => {
+  useObserver(lastElement, isLoading || posts.length < limit, page < countPages - 1, () => {
     setPage(page + 1);
   });
 
