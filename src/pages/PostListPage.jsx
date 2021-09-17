@@ -24,28 +24,34 @@ const PostListPage = () => {
   const [page, setPage] = useState(queryPage);
   const lastElement = useRef();
 
-  const [fetchPosts, isLoading, error] = useFetching(async () => {
+  const [fetchPosts, isLoading, error] = useFetching(async (page, localposts) => {
     const response = await PostService.getPosts(limit, page, author);
     response.results = response.results.map(post => {
       if (post.content.length > 200)
         post.content = post.content.slice(0, 200) + '...';
       return post;
     })
-    setPosts([...posts, ...response.results]);
+    setPosts([...localposts, ...response.results]);
     const count = response.count;
     setCountPages(getPagesCount(count, limit));
   });
 
   const changePage = (newpage) => {
-    if (page != newpage) {
-      setPosts([]);
-      setPage(newpage);
-    }
-    history.push(`/?page=${newpage}`);
+    if (queryPage !== newpage)
+      history.push(`/?page=${newpage}`);
   }
 
   useEffect(() => {
-    fetchPosts();
+    if (queryPage !== page) {
+      setPosts([]);
+      setPage(queryPage);
+    }
+    else
+      fetchPosts(page, []);
+  }, [location.search])
+
+  useEffect(() => {
+    fetchPosts(page, posts);
   }, [page])
 
   useObserver(lastElement, isLoading, page < countPages - 1, () => {
