@@ -1,7 +1,8 @@
 import React from 'react'
 import { Pagination } from 'react-bootstrap';
+import classes from './MyPagination.module.css'
 
-const MyPagination = ({page=0, countPages, changePage}) => {
+const MyPagination = ({ page = 0, countPages, changePage }) => {
   const active = page + 1;
   let items = [];
   for (let number = 1; number <= countPages; number++) {
@@ -12,7 +13,7 @@ const MyPagination = ({page=0, countPages, changePage}) => {
     );
   }
   return (
-    <Pagination>{items}</Pagination>
+    <Pagination className={classes.pagination}>{items}</Pagination>
   )
 }
 
