@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./components/UI/Header"
 import Router from "./components/Router";
@@ -8,16 +9,19 @@ import { useAction } from "./hooks/useAction";
 function App() {
   const { refreshUser } = useAction();
   const [isLoading, setIsLoading] = useState(true);
+  const isAuth = useSelector(state => state.isAuth)
 
   useEffect(() => {
-    const wrapper = async () => {
-      if (localStorage.getItem('token')) {
-        await refreshUser();
-      }
+    if (localStorage.getItem('token'))
+      refreshUser();
+    else
       setIsLoading(false);
-    }
-    wrapper();
   }, [])
+
+  useEffect(() => {
+    if (isLoading && isAuth)
+      setIsLoading(false);
+  }, [isAuth])
 
   if (isLoading)
     return <LoaderError isLoading={isLoading}></LoaderError>
