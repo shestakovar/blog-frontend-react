@@ -24,8 +24,11 @@ const UserPage = () => {
   });
   const [fetchUser, isLoading, error] = useFetching(async () => {
     const response = await UserService.getUser(params.id);
-    setUserData({ password: '', ...response });
-    setUserData((state) => ({ ...state, last_login: timePassed(state.last_login), date_joined: addHours(state.date_joined) }));
+    let tempUserData = { password: '', ...response };
+    tempUserData = {...tempUserData, last_login: timePassed(tempUserData.last_login), date_joined: addHours(tempUserData.date_joined)};
+    if (!tempUserData.last_login)
+      tempUserData.last_login = 'Никогда';
+    setUserData(tempUserData);
   });
 
   const [updateUser, isLoadingUpdate, errorUpdate] = useFetching(async () => {
