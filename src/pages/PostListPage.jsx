@@ -23,6 +23,7 @@ const PostListPage = () => {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(queryPage || 0);
   const lastElement = useRef();
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   const [fetchPosts, isLoading, error] = useFetching(async (page, localposts) => {
     const response = await PostService.getPosts(limit, page, author);
@@ -46,6 +47,7 @@ const PostListPage = () => {
   }
 
   useEffect(() => {
+    setIsPageLoading(true);
     if (!isNaN(queryPage)) {
       if (queryPage !== page) {
         setPosts([]);
@@ -57,6 +59,7 @@ const PostListPage = () => {
       setPage(0);
       fetchPosts(page, []);
     }
+    setIsPageLoading(false);
   }, [location.search])
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const PostListPage = () => {
       <MyPagination page={page} countPages={countPages} changePage={changePage} />
       <PostList posts={posts} />
       <LoaderError isLoading={isLoading} error={error} />
-      {!error && posts.length === 0 && <Alert variant="info"> У вас еще нет постов. <Link className="link-dark" to="/posts/add/">Напишите новый!</Link></Alert>}
+      {!error && posts.length === 0 && !isLoading && !isPageLoading && <Alert variant="info"> У вас еще нет постов. <Link className="link-dark" to="/posts/add/">Напишите новый!</Link></Alert>}
       <div className="observer" ref={lastElement}></div>
     </Container>
   )
