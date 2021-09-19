@@ -7,9 +7,10 @@ import LoaderError from "./components/UI/LoaderError";
 import { useAction } from "./hooks/useAction";
 
 function App() {
-  const { refreshUser } = useAction();
+  const { refreshUser, logoutUser } = useAction();
   const [isLoading, setIsLoading] = useState(true);
-  const isAuth = useSelector(state => state.isAuth)
+  const isAuth = useSelector(state => state.isAuth);
+  const error = useSelector(state => state.error);
 
   useEffect(() => {
     if (localStorage.getItem('token'))
@@ -19,9 +20,13 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (error === 'Token is invalid or expired') {
+      logoutUser();
+      setIsLoading(false);
+    }
     if (isLoading && isAuth)
       setIsLoading(false);
-  }, [isAuth])
+  }, [isAuth, error])
 
   if (isLoading)
     return <LoaderError isLoading={isLoading}></LoaderError>
