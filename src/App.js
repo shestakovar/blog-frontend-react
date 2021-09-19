@@ -5,28 +5,31 @@ import Header from "./components/UI/Header"
 import Router from "./components/Router";
 import LoaderError from "./components/UI/LoaderError";
 import { useAction } from "./hooks/useAction";
+import AuthService from "./services/AuthService";
+import { fillLocalStorage } from "./store/localStorage";
+
 
 function App() {
-  const { refreshUser, logoutUser } = useAction();
+  const { logoutUser, setAccessToken } = useAction();
   const [isLoading, setIsLoading] = useState(true);
-  const isAuth = useSelector(state => state.isAuth);
-  const error = useSelector(state => state.error);
 
   useEffect(() => {
-    if (localStorage.getItem('token'))
-      refreshUser();
-    else
-      setIsLoading(false);
-  }, [])
-
-  useEffect(() => {
-    if (error === 'Token is invalid or expired') {
-      logoutUser();
+    const wrapper = async () => {
+      if (localStorage.getItem('token')) {
+        try {
+          const response = await AuthService.refresh();
+          fillLocalStorage(null, response.access, null);
+          setAccessToken(response);
+        }
+        catch (e) {
+          logoutUser();
+        }
+      }
       setIsLoading(false);
     }
-    if (isLoading && isAuth)
-      setIsLoading(false);
-  }, [isAuth, error])
+    wrapper();
+
+  }, [])
 
   if (isLoading)
     return <LoaderError isLoading={isLoading}></LoaderError>

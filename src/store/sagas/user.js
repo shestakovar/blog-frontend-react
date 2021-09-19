@@ -9,10 +9,6 @@ const loginUserBegin = () => ({ type: USER_CONSTANTS.LOGIN_USER_BEGIN });
 const loginUserSuccess = (user) => ({ type: USER_CONSTANTS.LOGIN_USER_SUCCESS, payload: user });
 const loginUserFailure = (error) => ({ type: USER_CONSTANTS.LOGIN_USER_FAILURE, payload: error });
 
-const refreshUserBegin = () => ({ type: USER_CONSTANTS.REFRESH_USER_BEGIN });
-const refreshUserSuccess = (response) => ({ type: USER_CONSTANTS.REFRESH_USER_SUCCESS, payload: response });
-const refreshUserFailure = (error) => ({ type: USER_CONSTANTS.REFRESH_USER_FAILURE, payload: error });
-
 const logoutUserBegin = () => ({ type: USER_CONSTANTS.LOGOUT_USER_BEGIN });
 const logoutUserSuccess = () => ({ type: USER_CONSTANTS.LOGOUT_USER_SUCCESS });
 const logoutUserFailure = (error) => ({ type: USER_CONSTANTS.LOGOUT_USER_FAILURE, payload: error });
@@ -32,18 +28,6 @@ function* loginUserWorker(action) {
     }
 }
 
-function* refreshUserWorker() {
-    try {
-        yield put(refreshUserBegin());
-        const response = yield call(AuthService.refresh);
-        yield call(fillLocalStorage, null, response.access, null);
-        yield put(refreshUserSuccess(response));
-    }
-    catch (e) {
-        yield put(refreshUserFailure(excToMessage(e)));
-    }
-}
-
 function* logoutUserWorker() {
     try {
         yield put(logoutUserBegin());
@@ -58,6 +42,5 @@ function* logoutUserWorker() {
 
 export function* userWatcher() {
     yield takeEvery(USER_CONSTANTS.LOGIN_USER, loginUserWorker);
-    yield takeEvery(USER_CONSTANTS.REFRESH_USER, refreshUserWorker);
     yield takeEvery(USER_CONSTANTS.LOGOUT_USER, logoutUserWorker);
 }

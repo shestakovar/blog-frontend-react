@@ -19,12 +19,9 @@ export const reducer = (state = defaultState, action) => {
         case USER_CONSTANTS.LOGIN_USER_FAILURE:
             return { ...state, loading: false, error: action.payload, isAuth: false };
 
-        case USER_CONSTANTS.REFRESH_USER_BEGIN:
-            return { ...state, loading: true, error: null };
-        case USER_CONSTANTS.REFRESH_USER_SUCCESS:
-            return { ...state, loading: false, token: action.payload.access, isAuth: true };
-        case USER_CONSTANTS.REFRESH_USER_FAILURE:
-            return { ...state, loading: false, error: action.payload, isAuth: false };
+        case USER_CONSTANTS.SET_ACCESS_TOKEN:
+            console.log('set');
+            return { ...state, token: action.payload, isAuth: true };
 
         case USER_CONSTANTS.LOGOUT_USER_BEGIN:
             return { ...state, loading: true, error: null };
