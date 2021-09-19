@@ -72,7 +72,7 @@ const PostListPage = () => {
       <MyPagination page={page} countPages={countPages} changePage={changePage} />
       <PostList posts={posts} />
       <LoaderError isLoading={isLoading} error={error} />
-      {!error && !posts && <Alert variant="info"> У вас еще нет постов. <Link className="link-dark" to="/posts/add/">Напишите новый!</Link></Alert>}
+      {!error && posts.length === 0 && <Alert variant="info"> У вас еще нет постов. <Link className="link-dark" to="/posts/add/">Напишите новый!</Link></Alert>}
       <div className="observer" ref={lastElement}></div>
     </Container>
   )
