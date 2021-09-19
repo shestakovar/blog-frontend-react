@@ -22,19 +22,24 @@ const UserPage = () => {
     last_login: { name: 'последний визит', readOnly: true, plainText: true },
     date_joined: { name: 'дата регистрации', readOnly: true, plainText: true },
   });
-  const [fetchUser, isLoading, error] = useFetching(async () => {
-    const response = await UserService.getUser(params.id);
+
+  const fixUserData = (response) => {
     let tempUserData = { password: '', ...response };
-    tempUserData = {...tempUserData, last_login: timePassed(tempUserData.last_login), date_joined: addHours(tempUserData.date_joined)};
+    tempUserData = { ...tempUserData, last_login: timePassed(tempUserData.last_login), date_joined: addHours(tempUserData.date_joined) };
     if (!tempUserData.last_login)
       tempUserData.last_login = 'Никогда';
-    setUserData(tempUserData);
+    return tempUserData;
+  }
+
+  const [fetchUser, isLoading, error] = useFetching(async () => {
+    const response = await UserService.getUser(params.id);
+    setUserData(fixUserData(response));
   });
 
   const [updateUser, isLoadingUpdate, errorUpdate] = useFetching(async () => {
     const updated = removeEmpty(userData);
     const response = await UserService.patchUser(params.id, updated);
-    setUserData({ password: '', ...response });
+    setUserData(fixUserData(response));
   });
 
   useEffect(() => {
