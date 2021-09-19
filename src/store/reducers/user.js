@@ -22,7 +22,7 @@ export const reducer = (state = defaultState, action) => {
         case USER_CONSTANTS.REFRESH_USER_BEGIN:
             return { ...state, loading: true, error: null };
         case USER_CONSTANTS.REFRESH_USER_SUCCESS:
-            return { ...state, token: action.payload.access, isAuth: true };
+            return { ...state, loading: false, token: action.payload.access, isAuth: true };
         case USER_CONSTANTS.REFRESH_USER_FAILURE:
             return { ...state, loading: false, error: action.payload, isAuth: false };
 
