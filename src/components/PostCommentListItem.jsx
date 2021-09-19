@@ -1,15 +1,16 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
 
 const PostCommentListItem = ({ comment }) => {
-  if (!comment)
+  if (!comment.content)
     return null;
 
   return (
     <Card className="my-3">
       <Card.Body>
-        <Card.Title>{comment.author}</Card.Title>
+        <Card.Title><Link to={`/users/${comment.author_id}`} className="link-dark">{comment.author}</Link></Card.Title>
         <Card.Subtitle className="mb-2 text-muted"><TimeString string={comment.created} /></Card.Subtitle>
         <Card.Text>
           {comment.content}

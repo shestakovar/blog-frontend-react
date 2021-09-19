@@ -20,7 +20,6 @@ export const reducer = (state = defaultState, action) => {
             return { ...state, loading: false, error: action.payload, isAuth: false };
 
         case USER_CONSTANTS.SET_ACCESS_TOKEN:
-            console.log('set');
             return { ...state, token: action.payload, isAuth: true };
 
         case USER_CONSTANTS.LOGOUT_USER_BEGIN:
