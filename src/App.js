@@ -19,7 +19,7 @@ function App() {
         try {
           const response = await AuthService.refresh();
           fillLocalStorage(null, response.access, null);
-          setAccessToken(response);
+          setAccessToken(response.access);
         }
         catch (e) {
           logoutUser();
