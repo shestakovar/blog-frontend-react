@@ -39,7 +39,7 @@ const PostListPage = () => {
   const changePage = (newpage) => {
     if (queryPage !== newpage)
       history.push(`/?page=${newpage}`);
-    else {
+    else if (newpage !== page) {
       setPosts([]);
       setPage(newpage);
     }
