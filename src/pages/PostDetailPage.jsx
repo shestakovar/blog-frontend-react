@@ -35,7 +35,7 @@ const PostDetailPage = () => {
     fetchPost();
   }, [])
 
-  if (isLoading || error)
+  if (isLoading || error || !post)
     return (
       <LoaderError isLoading={isLoading} error={error} />
     )
