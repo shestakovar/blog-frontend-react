@@ -16,12 +16,12 @@ const PostListPage = () => {
   const params = useParams();
   const location = useLocation();
   const history = useHistory();
-  const queryPage = parseInt(parseLocation(location.search, ['page']).page) || 0;
+  const queryPage = parseInt(parseLocation(location.search, ['page']).page);
   const author = params.id;
   const [posts, setPosts] = useState([]);
   const [countPages, setCountPages] = useState(0);
   const [limit, setLimit] = useState(5);
-  const [page, setPage] = useState(queryPage);
+  const [page, setPage] = useState(queryPage || 0);
   const lastElement = useRef();
 
   const [fetchPosts, isLoading, error] = useFetching(async (page, localposts) => {
@@ -39,15 +39,24 @@ const PostListPage = () => {
   const changePage = (newpage) => {
     if (queryPage !== newpage)
       history.push(`/?page=${newpage}`);
+    else {
+      setPosts([]);
+      setPage(newpage);
+    }
   }
 
   useEffect(() => {
-    if (queryPage !== page) {
-      setPosts([]);
-      setPage(queryPage);
+    if (!isNaN(queryPage)) {
+      if (queryPage !== page) {
+        setPosts([]);
+        setPage(queryPage);
+      }
     }
-    else
+    else {
+      setPosts([]);
+      setPage(0);
       fetchPosts(page, []);
+    }
   }, [location.search])
 
   useEffect(() => {
