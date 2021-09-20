@@ -4,7 +4,7 @@ import UserService from '../services/UserService';
 import { useFetching } from '../hooks/useFetching';
 import { Container } from 'react-bootstrap';
 import LoaderError from '../components/UI/LoaderError';
-import TwoColumnsEditForm from '../components/UI/TwoColumnsEditForm';
+import UserForm from '../components/UI/UserForm';
 import { removeEmpty } from '../utils/object';
 import { timePassed, addHours } from '../utils/time';
 import { useSelector } from 'react-redux';
@@ -62,8 +62,8 @@ const UserPage = () => {
     )
 
   return (
-    <Container className="mt-4">
-      <TwoColumnsEditForm
+    <Container className="mt-5">
+      <UserForm
         data={userData}
         setData={setUserData}
         dataPrint={userDataPrint}
@@ -71,7 +71,7 @@ const UserPage = () => {
         submitAction={updateUser}
         isLoading={isLoadingUpdate}
         error={errorUpdate}
-      ></TwoColumnsEditForm>
+      ></UserForm>
     </Container >
   )
 }

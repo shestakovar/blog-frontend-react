@@ -28,6 +28,9 @@ export const reducer = (state = defaultState, action) => {
             return { ...defaultState };
         case USER_CONSTANTS.LOGOUT_USER_FAILURE:
             return { ...state, loading: false, error: action.payload };
+
+        case USER_CONSTANTS.CLOSE_ERROR:
+            return { ...state, error: null };
         default:
             return state;
     }

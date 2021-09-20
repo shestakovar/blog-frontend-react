@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
-import TwoColumnsForm from '../components/UI/TwoColumnsForm';
+import RegisterForm from '../components/UI/RegisterForm';
 import { useFetching } from '../hooks/useFetching';
 import { useAction } from '../hooks/useAction';
+import classes from './RegisterPage.module.css';
+import LoaderError from '../components/UI/LoaderError';
 
 const RegisterPage = () => {
   const { loginUser } = useAction();
@@ -25,16 +27,19 @@ const RegisterPage = () => {
   });
 
   return (
-    <Container className="mt-4">
-      <TwoColumnsForm
-        data={userData}
-        setData={setUserData}
-        dataPrint={userDataPrint}
-        submitAction={register}
-        btnText="Зарегистрироваться"
-        isLoading={isLoading}
-        error={error}
-      ></TwoColumnsForm>
+    <Container className="register_page mt-5">
+      <div className={classes.register_form}>
+        {typeof error !== 'object' && <LoaderError error={error} />}
+        <RegisterForm
+          data={userData}
+          setData={setUserData}
+          dataPrint={userDataPrint}
+          submitAction={register}
+          btnText="Зарегистрироваться"
+          error={error}
+          isLoading={isLoading}
+        ></RegisterForm>
+      </div>
     </Container>
   )
 }

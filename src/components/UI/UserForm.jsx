@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import LoaderError from './LoaderError';
 import { useFormValidation } from '../../hooks/useFormValidation';
-import classes from './TwoColumnsForm.module.css';
+import classes from './UserForm.module.css';
 
-const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, submitAction, isLoading, error }) => {
+const UserForm = ({ data, setData, dataPrint, setDataPrint, submitAction, isLoading, error }) => {
   const [initialState, setInitialState] = useState(dataPrint);
   const isMounted = useRef(false);
 
@@ -19,13 +19,13 @@ const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, submitActi
   });
 
   return (
-    <div className="mt-4">
+    <div className={classes.user_form}>
       <LoaderError isLoading={isLoading} error={error} />
       <Form noValidate validated={validated} onSubmit={submit} >
         {Object.keys(dataPrint).map(key =>
           <Form.Group hidden={dataPrint[key].hidden} as={Row} className="mb-3" controlId={`form${key}`} key={`form${key}`}>
-            <Form.Label className={classes.lbl} column sm="2" >{dataPrint[key].name}</Form.Label>
-            <Col sm="10">
+            <Form.Label className={classes.lbl} column sm="4" >{dataPrint[key].name}</Form.Label>
+            <Col sm="8">
               <InputGroup className="mb-3">
 
                 <Form.Control
@@ -66,4 +66,4 @@ const TwoColumnsEditForm = ({ data, setData, dataPrint, setDataPrint, submitActi
   )
 }
 
-export default TwoColumnsEditForm;
+export default UserForm;

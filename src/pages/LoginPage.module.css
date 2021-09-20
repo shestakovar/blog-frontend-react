@@ -1,0 +1,16 @@
+.auth_form {
+    display: grid;
+    justify-content: center;
+}
+
+.auth_form__register {
+    border: 1px solid #d8dee4;
+    border-radius: 6px;
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 0.8rem;
+}
+
+.auth_form__register_link {
+    text-decoration: none;
+}

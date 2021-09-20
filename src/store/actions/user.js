@@ -5,3 +5,5 @@ export const loginUser = (user, history) => ({ type: USER_CONSTANTS.LOGIN_USER, 
 export const setAccessToken = (payload) => ({ type: USER_CONSTANTS.SET_ACCESS_TOKEN, payload })
 
 export const logoutUser = () => ({ type: USER_CONSTANTS.LOGOUT_USER })
+
+export const closeError = () => ({ type: USER_CONSTANTS.CLOSE_ERROR })

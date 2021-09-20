@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./components/UI/Header"
 import Router from "./components/Router";
