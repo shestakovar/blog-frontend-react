@@ -9,5 +9,5 @@ export const timePassed = (time_created) => {
 }
 
 export const addHours = (time, hours = Date().getTimezoneOffset) => {
-    return moment.tz(time, "DD.MM.YYYY hh:mm", Date().getTimezoneOffset).format('MM.DD.YYYY');
+    return moment.tz(time, "DD.MM.YYYY hh:mm", hours).format('D MMMM YYYY');
 }
