@@ -1,14 +1,12 @@
-.user_form {
-    width: 600px;
-    max-width: 100%;
-    margin: 0 auto;
-
-    border: 1px solid #d8dee4;
-    padding: 20px;
-    border-radius: 6px;
-    
-}
-
 .lbl::first-letter {
     text-transform: uppercase;
+}
+
+.avatar__img {
+    object-fit: cover;
+}
+
+.avatar_img__wrapper {
+    width: 50% !important;
+    margin: 0 auto;
 }

@@ -12,16 +12,18 @@ export const useFetching = (callback) => {
 
   const fetching = async (...args) => {
     try {
-        setIsLoading(true);
-        await callback(...args);
+      setIsLoading(true);
+      await callback(...args);
     }
     catch (e) {
-        setError(excToMessage(e));
+      setError(excToMessage(e));
     }
     finally {
-        if (isMounted.current) setIsLoading(false);
+      if (isMounted.current) setIsLoading(false);
     }
   }
 
-  return [fetching, isLoading, error];
+  const clearError = () => { setError('') };
+
+  return [fetching, isLoading, error, clearError];
 }

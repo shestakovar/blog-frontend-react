@@ -15,7 +15,7 @@ const LoaderError = ({ isLoading, error, closeError }) => {
         <div className="errors">
 
           <Alert variant="danger" onClose={() => closeError()} dismissible>
-            {Object.entries(error).map(([k, v]) => <p>{k} : {v}</p>)}
+            {Object.entries(error).map(([k, v]) => <p key={k}>{k} : {v}</p>)}
           </Alert>
 
         </div>
