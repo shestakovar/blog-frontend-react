@@ -81,7 +81,7 @@ const UserPage = () => {
           canBeChanged={canBeChanged}
           clearError={clearErrorUpdate}
         ></UserForm>
-        <PasswordChangeModal submitAction={updateUser} isLoading={isLoadingUpdate} error={errorUpdate} />
+        {canBeChanged && <PasswordChangeModal submitAction={updateUser} isLoading={isLoadingUpdate} error={errorUpdate} />}
       </div>
 
     </Container >
