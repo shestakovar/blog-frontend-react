@@ -1,5 +1,8 @@
+import dompurify from 'dompurify';
+
 function createMarkup(post) {
-    return { __html: post };
+    const sanitizer = dompurify.sanitize;
+    return { __html: sanitizer(post) };
 }
 
 export function stringToHtml(string) {
