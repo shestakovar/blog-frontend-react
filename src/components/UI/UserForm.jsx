@@ -39,7 +39,7 @@ const UserForm = ({ data, setData, dataPrint, setDataPrint, submitAction, isLoad
 
               <InputGroup className="mb-3">
 
-                <Form.Control type="file" onChange={e => { setNewAvatar(e.target.files[0]) }} />
+                <Form.Control type="file" accept="image/*" onChange={e => { setNewAvatar(e.target.files[0]) }} />
                 <Button
                   type="submit"
                   variant="outline-secondary"
