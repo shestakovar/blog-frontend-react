@@ -10,6 +10,7 @@ import LoaderError from '../components/UI/LoaderError';
 import PostCommentList from '../components/PostCommentList';
 import PostCommentAddForm from '../components/PostCommentAddForm';
 import PostDetailEdit from '../components/PostDetailEdit';
+import { addTags } from '../utils/html';
 
 
 const PostDetailPage = () => {
@@ -21,6 +22,7 @@ const PostDetailPage = () => {
   const username = useSelector(state => state.username);
   const [fetchPost, isLoading, error] = useFetching(async () => {
     let response = await PostService.getPost(params.id);
+    response.content = addTags(response.content);
     setPost(response);
     response = await PostService.getComments(params.id)
     setComments(response);

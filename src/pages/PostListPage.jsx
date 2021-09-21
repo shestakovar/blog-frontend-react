@@ -10,6 +10,7 @@ import { useObserver } from '../hooks/useObserver';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/UI/LoaderError';
 import { parseLocation } from '../utils/url';
+import { addTags } from '../utils/html';
 
 
 const PostListPage = () => {
@@ -29,6 +30,7 @@ const PostListPage = () => {
     const response = await PostService.getPosts(limit, page, author);
     response.results = response.results.map(post => {
       const postLen = 400;
+      post.content = addTags(post.content);
       if (post.content.length > postLen)
         post.content = post.content.slice(0, postLen) + '...';
       return post;

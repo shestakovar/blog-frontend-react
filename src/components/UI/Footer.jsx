@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
-import { Telegram, Github, Instagram } from 'react-bootstrap-icons';
+import { Telegram, Github } from 'react-bootstrap-icons';
 
 const Footer = () => {
   return (

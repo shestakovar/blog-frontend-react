@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Form, Button } from 'react-bootstrap';
 import TimeString from './UI/TimeString';
 import PostService from '../services/PostService';
 import { useFormFetching } from '../hooks/useFormFetching';
 import LoaderError from './UI/LoaderError';
+import MyEditor from './UI/MyEditor';
 
 const PostDetailEdit = (props) => {
-  const [updatedPost, setUpdatedPost] = useState({ title: props.post.title, content: props.post.content });
+  const [newPostTitle, setNewPostTitle] = useState(props.post.title);
+  const [newPostContent, setNewPostContent] = useState(props.post.content);
+  const [isInvalid, setIsInvalid] = useState(false);
   const [updatePost, isLoading, error, validated] = useFormFetching(async () => {
-    let response = await PostService.updatePost(props.post.id, updatedPost);
+    let response = await PostService.updatePost(props.post.id, { title: newPostTitle, content: newPostContent });
     props.setPost(response);
     props.setEditMode(false);
   })
+
+  useEffect(() => {
+    if (newPostContent.trim() === '<p></p>')
+      setIsInvalid(true);
+  }, [newPostContent])
 
   if (!props?.post)
     return null;
@@ -24,14 +32,14 @@ const PostDetailEdit = (props) => {
           <Form noValidate validated={validated} onSubmit={updatePost}>
             <Card.Title>
               <Form.Group className="mb-3" controlId="postDetailEdit.ControlTextarea1">
-                <Form.Control required value={updatedPost.title} onChange={e => setUpdatedPost({ ...updatedPost, title: e.target.value })} />
+                <Form.Control required value={newPostTitle} onChange={e => setNewPostTitle(e.target.value)} />
                 <Form.Control.Feedback type="invalid">Введите заголовок!</Form.Control.Feedback>
               </Form.Group>
             </Card.Title>
             <Card.Subtitle className="mb-2 text-muted">{props.post.author} <TimeString string={props.post.created} /></Card.Subtitle>
             <Card.Text>
               <Form.Group className="mb-3" controlId="postDetailEdit.ControlTextarea2">
-                <Form.Control required as="textarea" rows={3} value={updatedPost.content} onChange={e => setUpdatedPost({ ...updatedPost, content: e.target.value })} />
+                <Form.Control isInvalid={validated && isInvalid} as={MyEditor} setPostContent={setNewPostContent} initial={newPostContent} className="form-control" />
                 <Form.Control.Feedback type="invalid">Введите текст поста!</Form.Control.Feedback>
               </Form.Group>
             </Card.Text>
