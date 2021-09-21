@@ -10,7 +10,7 @@ import { useObserver } from '../hooks/useObserver';
 import { useFetching } from '../hooks/useFetching';
 import LoaderError from '../components/UI/LoaderError';
 import { parseLocation } from '../utils/url';
-import { addTags } from '../utils/html';
+import { addTags, truncateHtmlString } from '../utils/html';
 
 
 const PostListPage = () => {
@@ -32,7 +32,7 @@ const PostListPage = () => {
       const postLen = 400;
       post.content = addTags(post.content);
       if (post.content.length > postLen)
-        post.content = post.content.slice(0, postLen) + '...';
+        post.content = truncateHtmlString(post.content, postLen);
       return post;
     })
     setPosts([...localposts, ...response.results]);
