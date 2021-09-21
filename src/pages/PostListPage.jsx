@@ -28,8 +28,9 @@ const PostListPage = () => {
   const [fetchPosts, isLoading, error] = useFetching(async (page, localposts) => {
     const response = await PostService.getPosts(limit, page, author);
     response.results = response.results.map(post => {
-      if (post.content.length > 200)
-        post.content = post.content.slice(0, 200) + '...';
+      const postLen = 400;
+      if (post.content.length > postLen)
+        post.content = post.content.slice(0, postLen) + '...';
       return post;
     })
     setPosts([...localposts, ...response.results]);
