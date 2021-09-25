@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useFetching } from './useFetching';
 
-export const useFormFetching = (callback) => {
+export const useFormFetching = (callback: () => void) => {
     const [validated, setValidated] = useState(false);
     const isMounted = useRef(false);
     useEffect(() => {
