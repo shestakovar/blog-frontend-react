@@ -1,18 +1,11 @@
 import React from 'react';
 import { Form, InputGroup, Row, Col } from 'react-bootstrap';
-import { useFormValidation } from '../../hooks/useFormValidation';
 import classes from './LoginForm.module.css';
 import LoadingButton from './LoadingButton';
 
-const RegisterForm = ({ data, setData, dataPrint, submitAction, btnText, error, isLoading }) => {
-
-  const [submit, validated] = useFormValidation(async () => {
-    await submitAction();
-  });
-
+const RegisterForm = ({ data, setData, dataPrint, submitAction, btnText, error, isLoading, validated }) => {
   return (
-
-    <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submit} >
+    <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submitAction} >
       {Object.keys(dataPrint).map(key =>
         <Form.Group as={Row} className="mb-3" controlId={`form${key}`} key={`form${key}`}>
           <Form.Label className={classes.lbl} column sm="4">{dataPrint[key].name}</Form.Label>

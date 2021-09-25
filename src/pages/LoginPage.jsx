@@ -6,6 +6,7 @@ import LoginForm from '../components/UI/LoginForm';
 import { useAction } from "../hooks/useAction";
 import classes from './LoginPage.module.css';
 import LoaderError from '../components/UI/LoaderError';
+import { useFormFetching } from "../hooks/useFormFetching";
 
 const LoginPage = () => {
   const history = useHistory();
@@ -17,10 +18,10 @@ const LoginPage = () => {
     password: { name: 'пароль', type: 'password', required: true },
   };
 
-  const login = async () => {
+  const [login, isLoading, error, clearError, validated] = useFormFetching(() => {
     const historyAction = history.goBack;
-    await loginUser(userData, historyAction);
-  }
+    loginUser(userData, historyAction);
+  })
 
   return (
     <Container className="login_page mt-5">
@@ -32,7 +33,8 @@ const LoginPage = () => {
           dataPrint={userDataPrint}
           submitAction={login}
           btnText="Войти"
-          isLoading={user.loading}
+          isLoading={user.loading || isLoading}
+          validated={validated}
         ></LoginForm>
         <div className={`mt-4 ${classes.auth_form__register}`}>
           Еще не зарегистрированы? <Link className={classes.auth_form__register_link} to="/register">Зарегистрироваться</Link>

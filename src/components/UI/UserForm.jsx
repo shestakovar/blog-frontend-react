@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Row, Col, InputGroup, Image, Ratio } from 'react-bootstrap';
 import LoaderError from './LoaderError';
-import { useFormValidation } from '../../hooks/useFormValidation';
+import { useFormFetching } from "../../hooks/useFormFetching";
 import classes from './UserForm.module.css';
 import noAvatar from '../../img/no-avatar.svg'
+import { removeEmpty } from "../../utils/object";
+import UserService from "../../services/UserService";
 
-const UserForm = ({ data, setData, dataPrint, setDataPrint, submitAction, isLoading, error, canBeChanged, clearError }) => {
+
+const UserForm = ({ data, setData, dataPrint, setDataPrint, canBeChanged, setFixedUserData }) => {
   const [initialState, setInitialState] = useState(dataPrint);
-  const isMounted = useRef(false);
   const [newAvatar, setNewAvatar] = useState(null);
 
-  useEffect(() => {
-    isMounted.current = true;
-    return () => { isMounted.current = false }
-  }, []);
-
-  const [submit, validated] = useFormValidation(async () => {
-    await submitAction(data, newAvatar);
-    if (isMounted.current) setDataPrint(initialState);
+  const [submit, isLoading, error, clearError, validated] = useFormFetching(async () => {
+    const formData = new FormData();
+    const cleared = removeEmpty(data);
+    delete cleared.avatar;
+    Object.entries(cleared).forEach(([k, v]) => formData.append(k, v));
+    if (newAvatar != null)
+      formData.append("avatar", newAvatar);
+    const response = await UserService.patchUser(data.id, formData);
+    setFixedUserData(response);
+    setDataPrint(initialState);
   });
 
   return (
