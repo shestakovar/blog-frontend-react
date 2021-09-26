@@ -1,22 +1,22 @@
 import dompurify from 'dompurify';
 
-function createMarkup(post) {
+function createMarkup(post: string) {
     const sanitizer = dompurify.sanitize;
     return { __html: sanitizer(post) };
 }
 
-export function stringToHtml(string) {
+export function stringToHtml(string: string) {
     return <div dangerouslySetInnerHTML={createMarkup(string)} />
 }
 
-export function addTags(string) {
+export function addTags(string: string) {
     if (!string.includes('<p'))
         return string.split('\n').map(str => `<p>${str}</p>`).join('');
     else
         return string;
 }
 
-function findRealIndex(string, findIndex) {
+function findRealIndex(string: string, findIndex: number) {
     let stack = 0;
     let i = 0;
     let realCount = 0;
@@ -31,7 +31,7 @@ function findRealIndex(string, findIndex) {
     return i;
 }
 
-export function truncateHtmlString(string, max_symbols) {
+export function truncateHtmlString(string: string, max_symbols: number) {
     const realIndex = findRealIndex(string, max_symbols);
     if (realIndex < string.length)
         return string.slice(0, realIndex) + '...';
