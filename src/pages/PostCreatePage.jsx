@@ -11,13 +11,12 @@ const PostCreatePage = () => {
   const [postContent, setPostContent] = useState('<p></p>');
   const history = useHistory();
   const [isInvalid, setIsInvalid] = useState(false);
-  const [createPost, isLoading, error, validated] = useFormFetching(async () => {
+  const [createPost, isLoading, error, clearError, validated] = useFormFetching(async () => {
     const response = await PostService.pushPost({ title: postTitle, content: postContent });
     history.push(`/${response.id}`);
   })
 
   useEffect(() => {
-    console.log('effect');
     if (postContent.trim() === '<p></p>')
       setIsInvalid(true);
     else

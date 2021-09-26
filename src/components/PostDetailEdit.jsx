@@ -10,7 +10,7 @@ const PostDetailEdit = (props) => {
   const [newPostTitle, setNewPostTitle] = useState(props.post.title);
   const [newPostContent, setNewPostContent] = useState(props.post.content);
   const [isInvalid, setIsInvalid] = useState(false);
-  const [updatePost, isLoading, error, validated] = useFormFetching(async () => {
+  const [updatePost, isLoading, error, clearError, validated] = useFormFetching(async () => {
     let response = await PostService.updatePost(props.post.id, { title: newPostTitle, content: newPostContent });
     props.setPost(response);
     props.setEditMode(false);

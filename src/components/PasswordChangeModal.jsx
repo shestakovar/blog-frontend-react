@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
-import { useFormValidation } from '../hooks/useFormValidation';
+import { useFormFetching } from "../hooks/useFormFetching";
 import LoadingButton from './UI/LoadingButton';
+import UserService from "../services/UserService";
 
-const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
+const PasswordChangeModal = (userId) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -14,11 +15,13 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
 
   useEffect(() => {
     isMounted.current = true;
-    return () => { isMounted.current = false }
+    return () => {
+      isMounted.current = false
+    }
   }, []);
 
-  const [submit, validated] = useFormValidation(async () => {
-    await submitAction({ password });
+  const [submit, isLoadingUpdate, errorUpdate, clearError, validated] = useFormFetching(async () => {
+    await UserService.patchUser(userId, { password });
     if (isMounted.current) {
       setPassword('');
       setConfirmation('');
@@ -30,7 +33,7 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
   return (
     <>
       <div className="d-grid">
-        <Button variant="link" onClick={handleShow} className={className}>
+        <Button variant="link" onClick={handleShow}>
           Сменить пароль
         </Button>
       </div>
@@ -40,11 +43,11 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
           <Modal.Title>Сменить пароль</Modal.Title>
         </Modal.Header>
 
-        <Form noValidate validated={validated} onSubmit={submit} >
+        <Form noValidate validated={validated} onSubmit={submit}>
           <Modal.Body>
 
             <Form.Group className="mb-3" controlId={`formPassword`}>
-              <Form.Label >Пароль</Form.Label>
+              <Form.Label>Пароль</Form.Label>
 
               <InputGroup hasValidation className="mb-3">
 
@@ -53,7 +56,9 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
                   type="password"
                   placeholder={`Введите пароль`}
                   value={password}
-                  onChange={e => { setPassword(e.target.value) }}
+                  onChange={e => {
+                    setPassword(e.target.value)
+                  }}
 
                 />
                 <Form.Control.Feedback type="invalid">Введите пароль</Form.Control.Feedback>
@@ -62,7 +67,7 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId={`formPasswordAgain`}>
-              <Form.Label >Подтверждение пароля</Form.Label>
+              <Form.Label>Подтверждение пароля</Form.Label>
 
               <InputGroup hasValidation className="mb-3">
 
@@ -71,7 +76,9 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
                   type="password"
                   placeholder={`Введите пароль`}
                   value={confirmation}
-                  onChange={e => { setConfirmation(e.target.value) }}
+                  onChange={e => {
+                    setConfirmation(e.target.value)
+                  }}
                   isInvalid={password !== confirmation}
                 />
                 <Form.Control.Feedback type="invalid">Пароли не совпадают</Form.Control.Feedback>
@@ -84,7 +91,7 @@ const PasswordChangeModal = ({ submitAction, isLoading, error, className }) => {
             <Button variant="secondary" onClick={handleClose}>
               Закрыть
             </Button>
-            <LoadingButton isLoading={isLoading} loadingText="Загрузка..." text="Сменить пароль" />
+            <LoadingButton isLoading={isLoadingUpdate} loadingText="Загрузка..." text="Сменить пароль"/>
 
           </Modal.Footer>
         </Form>

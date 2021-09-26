@@ -5,7 +5,6 @@ import { useFetching } from '../hooks/useFetching';
 import { Container } from 'react-bootstrap';
 import LoaderError from '../components/UI/LoaderError';
 import UserForm from '../components/UI/UserForm';
-import { removeEmpty } from '../utils/object';
 import { timePassed, addHours } from '../utils/time';
 import { useSelector } from 'react-redux';
 import classes from './UserPage.module.css';
@@ -18,7 +17,6 @@ const UserPage = () => {
   const [userData, setUserData] = useState({ username: '', first_name: '', last_name: '', email: '', last_login: '', date_joined: '' });
   const [userDataPrint, setUserDataPrint] = useState({
     username: { name: 'логин', required: true, readOnly: true },
-    // password: { name: 'пароль', type: 'password', required: true, readOnly: true },
     first_name: { name: 'имя', required: true, readOnly: true },
     last_name: { name: 'фамилия', required: true, readOnly: true },
     email: { name: 'e-mail', type: 'email', required: true, readOnly: true },
@@ -26,30 +24,19 @@ const UserPage = () => {
     date_joined: { name: 'дата регистрации', readOnly: true, plainText: true },
   });
 
-  const fixUserData = (response) => {
-    // let tempUserData = { password: '', ...response };
-    let tempUserData = response;
-    tempUserData = { ...tempUserData, last_login: timePassed(tempUserData.last_login), date_joined: addHours(tempUserData.date_joined) };
+  const setFixedUserData = (response) => {
+    let tempUserData = { ...response, last_login: timePassed(response.last_login), date_joined: addHours(response.date_joined) };
     if (!tempUserData.last_login)
       tempUserData.last_login = 'Никогда';
-    return tempUserData;
+    setUserData(tempUserData);
   }
 
   const [fetchUser, isLoading, error, clearError] = useFetching(async () => {
     const response = await UserService.getUser(params.id);
-    setUserData(fixUserData(response));
+    setFixedUserData(response);
   });
 
-  const [updateUser, isLoadingUpdate, errorUpdate, clearErrorUpdate] = useFetching(async (userData, newAvatar) => {
-    const formData = new FormData();
-    const cleared = removeEmpty(userData);
-    delete cleared.avatar;
-    Object.entries(cleared).forEach(([k, v]) => formData.append(k, v));
-    if (newAvatar != null)
-      formData.append("avatar", newAvatar);
-    const response = await UserService.patchUser(params.id, formData);
-    setUserData(fixUserData(response));
-  });
+
 
   useEffect(() => {
     fetchUser();
@@ -75,13 +62,10 @@ const UserPage = () => {
           setData={setUserData}
           dataPrint={userDataPrint}
           setDataPrint={setUserDataPrint}
-          submitAction={updateUser}
-          isLoading={isLoadingUpdate}
-          error={errorUpdate}
           canBeChanged={canBeChanged}
-          clearError={clearErrorUpdate}
-        ></UserForm>
-        {canBeChanged && <PasswordChangeModal submitAction={updateUser} isLoading={isLoadingUpdate} error={errorUpdate} />}
+          setFixedUserData={setFixedUserData}
+        />
+        {canBeChanged && <PasswordChangeModal userId={params.id} />}
       </div>
 
     </Container >

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import AuthService from '../services/AuthService';
 import RegisterForm from '../components/UI/RegisterForm';
-import { useFetching } from '../hooks/useFetching';
+import { useFormFetching } from "../hooks/useFormFetching";
 import { useAction } from '../hooks/useAction';
 import classes from './RegisterPage.module.css';
 import LoaderError from '../components/UI/LoaderError';
@@ -20,10 +20,10 @@ const RegisterPage = () => {
     email: { name: 'электронная почта', type: 'email', required: true },
   };
 
-  const [register, isLoading, error] = useFetching(async () => {
+  const [register, isLoading, error, clearError, validated] = useFormFetching(async () => {
     await AuthService.register(userData);
     const thunk = (response) => (history.push(`/users/${response.userid}`));
-    await loginUser(userData, thunk);
+    loginUser(userData, thunk);
   });
 
   return (
@@ -38,7 +38,8 @@ const RegisterPage = () => {
           btnText="Зарегистрироваться"
           error={error}
           isLoading={isLoading}
-        ></RegisterForm>
+          validated={validated}
+        />
       </div>
     </Container>
   )

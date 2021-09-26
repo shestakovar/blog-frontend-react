@@ -1,17 +1,11 @@
 import React from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
-import { useFormValidation } from '../../hooks/useFormValidation';
 import LoadingButton from './LoadingButton';
 import classes from './LoginForm.module.css';
 
-const LoginForm = ({ data, setData, dataPrint, submitAction, btnText, isLoading }) => {
-
-  const [submit, validated] = useFormValidation(async () => {
-    await submitAction();
-  });
-
+const LoginForm = ({ data, setData, dataPrint, submitAction, isLoading, validated }) => {
   return (
-    <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submit} >
+    <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submitAction} >
       {Object.keys(dataPrint).map(key =>
         <Form.Group className="mb-3" controlId={`form${key}`} key={`form${key}`}>
           <Form.Label className={classes.lbl} >{dataPrint[key].name}</Form.Label>
@@ -31,7 +25,7 @@ const LoginForm = ({ data, setData, dataPrint, submitAction, btnText, isLoading 
         </Form.Group>
       )}
       <div className="d-grid">
-        <LoadingButton isLoading={isLoading} loadingText="Вход..." text={btnText} />
+        <LoadingButton isLoading={isLoading} loadingText="Вход..." text="Войти" />
       </div>
 
     </Form>
