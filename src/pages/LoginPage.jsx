@@ -32,7 +32,6 @@ const LoginPage = () => {
           setData={setUserData}
           dataPrint={userDataPrint}
           submitAction={login}
-          btnText="Войти"
           isLoading={user.loading || isLoading}
           validated={validated}
         ></LoginForm>

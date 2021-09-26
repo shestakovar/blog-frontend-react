@@ -3,7 +3,7 @@ import { Form, InputGroup } from 'react-bootstrap';
 import LoadingButton from './LoadingButton';
 import classes from './LoginForm.module.css';
 
-const LoginForm = ({ data, setData, dataPrint, submitAction, btnText, isLoading, validated }) => {
+const LoginForm = ({ data, setData, dataPrint, submitAction, isLoading, validated }) => {
   return (
     <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submitAction} >
       {Object.keys(dataPrint).map(key =>
@@ -25,7 +25,7 @@ const LoginForm = ({ data, setData, dataPrint, submitAction, btnText, isLoading,
         </Form.Group>
       )}
       <div className="d-grid">
-        <LoadingButton isLoading={isLoading} loadingText="Вход..." text={btnText} />
+        <LoadingButton isLoading={isLoading} loadingText="Вход..." text="Войти" />
       </div>
 
     </Form>
