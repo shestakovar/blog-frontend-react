@@ -10,7 +10,7 @@ const PostCommentAddForm = (props) => {
   const [newComment, setNewComment] = useState('');
   const isAuth = useSelector(state => state.isAuth);
 
-  const [addNewComment, isLoading, error, validated] = useFormFetching(async () => {
+  const [addNewComment, isLoading, error, clearError, validated] = useFormFetching(async () => {
     const newPushComment = {
       content: newComment,
     };

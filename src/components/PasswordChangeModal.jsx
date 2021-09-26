@@ -20,7 +20,7 @@ const PasswordChangeModal = (userId) => {
     }
   }, []);
 
-  const [submit, isLoadingUpdate, errorUpdate, validated] = useFormFetching(async () => {
+  const [submit, isLoadingUpdate, errorUpdate, clearError, validated] = useFormFetching(async () => {
     await UserService.patchUser(userId, { password });
     if (isMounted.current) {
       setPassword('');
