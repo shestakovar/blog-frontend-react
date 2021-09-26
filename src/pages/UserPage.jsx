@@ -64,7 +64,7 @@ const UserPage = () => {
           setDataPrint={setUserDataPrint}
           canBeChanged={canBeChanged}
           setFixedUserData={setFixedUserData}
-        ></UserForm>
+        />
         {canBeChanged && <PasswordChangeModal userId={params.id} />}
       </div>
 

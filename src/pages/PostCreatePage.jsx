@@ -17,7 +17,6 @@ const PostCreatePage = () => {
   })
 
   useEffect(() => {
-    console.log('effect');
     if (postContent.trim() === '<p></p>')
       setIsInvalid(true);
     else

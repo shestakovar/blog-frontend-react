@@ -39,7 +39,7 @@ const RegisterPage = () => {
           error={error}
           isLoading={isLoading}
           validated={validated}
-        ></RegisterForm>
+        />
       </div>
     </Container>
   )

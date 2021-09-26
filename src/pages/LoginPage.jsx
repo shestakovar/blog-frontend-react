@@ -34,7 +34,7 @@ const LoginPage = () => {
           submitAction={login}
           isLoading={user.loading || isLoading}
           validated={validated}
-        ></LoginForm>
+        />
         <div className={`mt-4 ${classes.auth_form__register}`}>
           Еще не зарегистрированы? <Link className={classes.auth_form__register_link} to="/register">Зарегистрироваться</Link>
         </div>
