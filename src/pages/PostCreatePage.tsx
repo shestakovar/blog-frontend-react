@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import PostService from '../services/PostService';
@@ -6,11 +6,11 @@ import { useFormFetching } from '../hooks/useFormFetching';
 import LoaderError from '../components/UI/LoaderError';
 import MyEditor from '../components/UI/MyEditor';
 
-const PostCreatePage = () => {
-  const [postTitle, setPostTitle] = useState('');
-  const [postContent, setPostContent] = useState('<p></p>');
+const PostCreatePage: FC = () => {
+  const [postTitle, setPostTitle] = useState<string>('');
+  const [postContent, setPostContent] = useState<string>('<p></p>');
   const history = useHistory();
-  const [isInvalid, setIsInvalid] = useState(false);
+  const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const [createPost, isLoading, error, clearError, validated] = useFormFetching(async () => {
     const response = await PostService.pushPost({ title: postTitle, content: postContent });
     history.push(`/${response.id}`);

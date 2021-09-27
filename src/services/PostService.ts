@@ -1,15 +1,22 @@
 import { instance, auth_instance } from '../api'
-import { IComment, IPost } from "../types/types";
+import { IComment, IPost, IUser } from "../types/types";
 
 interface postObj {
     title: string;
     content: string;
 }
 
+interface paginatedPostList {
+    count: number;
+    next: string;
+    previous: string;
+    results: IPost[];
+}
+
 export default class PostService {
     static async getPosts(limit:number = 5, page:number = 0, author:number|null = null) {
         const offset = page * limit;
-        const posts = await instance.get(`/posts/`, {
+        const posts = await instance.get<paginatedPostList>(`/posts/`, {
             params: { limit, offset, author }
         });
         return posts.data;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import UserService from '../services/UserService';
 import { useFetching } from '../hooks/useFetching';
@@ -6,16 +6,22 @@ import { Container } from 'react-bootstrap';
 import LoaderError from '../components/UI/LoaderError';
 import UserForm from '../components/UI/UserForm';
 import { timePassed, addHours } from '../utils/time';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import classes from './UserPage.module.css';
 import PasswordChangeModal from '../components/PasswordChangeModal';
+import { IPrint, IPrintField, IUser } from "../types/types";
 
-const UserPage = () => {
-  const params = useParams();
-  const user = useSelector(state => state);
-  const [canBeChanged, setCanBeChanged] = useState(false);
-  const [userData, setUserData] = useState({ username: '', first_name: '', last_name: '', email: '', last_login: '', date_joined: '' });
-  const [userDataPrint, setUserDataPrint] = useState({
+interface params {
+  id: string;
+}
+
+const UserPage: FC = () => {
+  const params = useParams<params>();
+  const userId = parseInt(params.id);
+  const user = useTypedSelector(state => state);
+  const [canBeChanged, setCanBeChanged] = useState<boolean>(false);
+  const [userData, setUserData] = useState<IPrintField>({ username: '', first_name: '', last_name: '', email: '', last_login: '', date_joined: '' });
+  const [userDataPrint, setUserDataPrint] = useState<IPrint>({
     username: { name: 'логин', required: true, readOnly: true },
     first_name: { name: 'имя', required: true, readOnly: true },
     last_name: { name: 'фамилия', required: true, readOnly: true },
@@ -24,7 +30,7 @@ const UserPage = () => {
     date_joined: { name: 'дата регистрации', readOnly: true, plainText: true },
   });
 
-  const setFixedUserData = (response) => {
+  const setFixedUserData = (response: IUser) => {
     let tempUserData = { ...response, last_login: timePassed(response.last_login), date_joined: addHours(response.date_joined) };
     if (!tempUserData.last_login)
       tempUserData.last_login = 'Никогда';
@@ -32,7 +38,7 @@ const UserPage = () => {
   }
 
   const [fetchUser, isLoading, error, clearError] = useFetching(async () => {
-    const response = await UserService.getUser(params.id);
+    const response = await UserService.getUser(userId);
     setFixedUserData(response);
   });
 
@@ -65,7 +71,7 @@ const UserPage = () => {
           canBeChanged={canBeChanged}
           setFixedUserData={setFixedUserData}
         />
-        {canBeChanged && <PasswordChangeModal userId={params.id} />}
+        {canBeChanged && <PasswordChangeModal userId={userId} />}
       </div>
 
     </Container >

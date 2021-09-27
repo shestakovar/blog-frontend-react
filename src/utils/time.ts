@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import 'moment/min/locales';
 moment.locale('ru');
 
-export const timePassed = (time_created: string) => {
+export const timePassed = (time_created: string | null) => {
     if (!time_created)
         return null;
     const date = new Date();

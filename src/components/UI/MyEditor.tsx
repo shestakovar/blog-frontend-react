@@ -8,7 +8,7 @@ import htmlToDraft from 'html-to-draftjs';
 interface props {
   setPostContent: (text: string) => void;
   className: string;
-  initial: string;
+  initial?: string;
 }
 
 const MyEditor:FC<props> = ({ setPostContent, className, initial }) => {

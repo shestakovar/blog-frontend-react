@@ -6,7 +6,7 @@ import { IPrint, IPrintField } from "../../types/types";
 
 interface RegisterFormProps {
   data: IPrintField;
-  setData: (newData: IPrintField) => void;
+  setData: React.Dispatch<React.SetStateAction<IPrintField>>;
   dataPrint: IPrint;
   submitAction: () => void;
   isLoading: boolean;

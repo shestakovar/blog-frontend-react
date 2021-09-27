@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
@@ -11,25 +11,34 @@ import PostCommentList from '../components/PostCommentList';
 import PostCommentAddForm from '../components/PostCommentAddForm';
 import PostDetailEdit from '../components/PostDetailEdit';
 import { addTags } from '../utils/html';
+import { IComment, IPost } from "../types/types";
 
+interface params {
+  id: string;
+}
 
-const PostDetailPage = () => {
-  const params = useParams();
-  const [post, setPost] = useState({});
-  const [comments, setComments] = useState([]);
-  const [editMode, setEditMode] = useState(false);
+const PostDetailPage: FC = () => {
+  const params = useParams<params>();
+  const postId = parseInt(params.id);
+  const [post, setPost] = useState<IPost>({
+    id: -1,
+    author: '',
+    author_id: -1,
+    comment_count: -1, title: '', content: '', created: ''});
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const history = useHistory();
-  const username = useSelector(state => state.username);
+  const username = useTypedSelector(state => state.username);
   const [fetchPost, isLoading, error] = useFetching(async () => {
-    let response = await PostService.getPost(params.id);
+    let response = await PostService.getPost(postId);
     response.content = addTags(response.content);
     setPost(response);
-    response = await PostService.getComments(params.id)
-    setComments(response);
+    const response_comments = await PostService.getComments(postId)
+    setComments(response_comments);
   })
 
   const [removePost, isRemoveLoading, removeError] = useFetching(async () => {
-    await PostService.removePost(params.id);
+    await PostService.removePost(postId);
     history.goBack();
   })
 

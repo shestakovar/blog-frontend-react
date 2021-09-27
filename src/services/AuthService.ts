@@ -1,5 +1,5 @@
 import { cred_instance, instance } from '../api'
-import { IUser } from "../types/types";
+import { IPrintField, IUser } from "../types/types";
 
 interface LoginUser {
     username: string;
@@ -14,8 +14,9 @@ interface RegisterUser {
    email: string;
 }
 
-interface SuccessLogin {
+export interface SuccessLogin {
   access: string;
+  userid: number;
 }
 
 export default class AuthService {
@@ -34,7 +35,7 @@ export default class AuthService {
         return response.data;
     }
 
-    static async register(userobj: RegisterUser) {
+    static async register(userobj: IPrintField) {
         const response = await instance.post<IUser>(`/users/`, userobj);
         return response.data;
     }

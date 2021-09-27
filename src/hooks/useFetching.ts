@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { excToMessage } from '../utils/error';
+import { IPrintField } from "../types/types";
 
 type TFetchingCallback = (...args: any[]) => void;
 
 export const useFetching = (callback: TFetchingCallback) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string | IPrintField>('');
   const isMounted = useRef(false);
   useEffect(() => {
     isMounted.current = true;

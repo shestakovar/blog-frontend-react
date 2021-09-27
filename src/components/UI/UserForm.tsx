@@ -10,7 +10,7 @@ import { IPrint, IPrintField, IUser } from "../../types/types";
 
 interface UserFormProps {
   data: IPrintField;
-  setData: (newData: IPrintField) => void;
+  setData: React.Dispatch<React.SetStateAction<IPrintField>>;
   dataPrint: IPrint;
   setDataPrint: (newData: IPrint) => void;
   canBeChanged: boolean;

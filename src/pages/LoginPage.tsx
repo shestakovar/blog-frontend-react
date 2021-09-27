@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useHistory, Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import LoginForm from '../components/UI/LoginForm';
@@ -7,12 +7,13 @@ import { useAction } from "../hooks/useAction";
 import classes from './LoginPage.module.css';
 import MyError from "../components/UI/MyError";
 import { useFormFetching } from "../hooks/useFormFetching";
+import { IPrintField } from "../types/types";
 
 const LoginPage = () => {
   const history = useHistory();
-  const user = useSelector(state => state);
+  const user = useTypedSelector(state => state);
   const { loginUser, closeError } = useAction();
-  const [userData, setUserData] = useState({ username: '', password: '' });
+  const [userData, setUserData] = useState<IPrintField>({ username: '', password: '' });
   const userDataPrint = {
     username: { name: 'логин', required: true },
     password: { name: 'пароль', type: 'password', required: true },
