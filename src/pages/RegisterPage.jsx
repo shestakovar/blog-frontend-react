@@ -6,7 +6,7 @@ import RegisterForm from '../components/UI/RegisterForm';
 import { useFormFetching } from "../hooks/useFormFetching";
 import { useAction } from '../hooks/useAction';
 import classes from './RegisterPage.module.css';
-import LoaderError from '../components/UI/LoaderError';
+import MyError from "../components/UI/MyError";
 
 const RegisterPage = () => {
   const { loginUser } = useAction();
@@ -29,7 +29,7 @@ const RegisterPage = () => {
   return (
     <Container className="register_page mt-5">
       <div className={classes.register_form}>
-        {typeof error !== 'object' && <LoaderError error={error} />}
+        {typeof error !== 'object' && <MyError error={error} />}
         <RegisterForm
           data={userData}
           setData={setUserData}

@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap'
 import LoginForm from '../components/UI/LoginForm';
 import { useAction } from "../hooks/useAction";
 import classes from './LoginPage.module.css';
-import LoaderError from '../components/UI/LoaderError';
+import MyError from "../components/UI/MyError";
 import { useFormFetching } from "../hooks/useFormFetching";
 
 const LoginPage = () => {
@@ -26,7 +26,7 @@ const LoginPage = () => {
   return (
     <Container className="login_page mt-5">
       <div className={classes.auth_form}>
-        <LoaderError error={user.error} closeError={closeError} />
+        <MyError error={user.error} closeError={closeError} />
         <LoginForm
           data={userData}
           setData={setUserData}

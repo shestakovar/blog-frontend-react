@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "./components/UI/Header"
 import Router from "./components/Router";
 import Footer from "./components/UI/Footer";
-import LoaderError from "./components/UI/LoaderError";
+import MyLoader from "./components/UI/MyLoader";
 import { useAction } from "./hooks/useAction";
 import AuthService from "./services/AuthService";
 import { fillLocalStorage } from "./store/localStorage";
@@ -33,7 +33,7 @@ function App() {
   }, [])
 
   if (isLoading)
-    return <LoaderError isLoading={isLoading}></LoaderError>
+    return <MyLoader isLoading={isLoading} />
 
   return (
     <BrowserRouter>
