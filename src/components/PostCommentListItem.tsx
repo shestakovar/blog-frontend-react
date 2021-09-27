@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
+import { IComment } from "../types/types";
 
-const PostCommentListItem = ({ comment }) => {
+interface props {
+  comment: IComment;
+}
+
+const PostCommentListItem: FC<props> = ({ comment }) => {
   if (!comment.content)
     return null;
 

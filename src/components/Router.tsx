@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react'
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { Switch, Route, Redirect } from 'react-router';
 import LoginPage from '../pages/LoginPage';
 import PostCreatePage from '../pages/PostCreatePage';
@@ -8,8 +8,8 @@ import PostListPage from '../pages/PostListPage';
 import RegisterPage from '../pages/RegisterPage';
 import UserPage from '../pages/UserPage';
 
-const Router = () => {
-  const isAuth = useSelector(state => state.isAuth);
+const Router: FC = () => {
+  const isAuth = useTypedSelector(state => state.isAuth);
 
   const everyoneRoutes = [
     { path: "/", component: PostListPage, exact: true },

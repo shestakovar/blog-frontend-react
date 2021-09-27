@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { FC, useState } from 'react'
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { NavLink } from 'react-router-dom';
 import { Button, Form, Alert } from 'react-bootstrap';
 import {useFormFetching} from "../hooks/useFormFetching";
 import PostService from "../services/PostService";
 import LoaderError from './UI/LoaderError';
+import { IComment } from "../types/types";
 
-const PostCommentAddForm = (props) => {
+interface props {
+  postid: number;
+  setComments: (newComments: IComment[]) => void;
+}
+
+const PostCommentAddForm: FC<props> = ({ postid, setComments }) => {
   const [newComment, setNewComment] = useState('');
-  const isAuth = useSelector(state => state.isAuth);
+  const isAuth = useTypedSelector(state => state.isAuth);
 
   const [addNewComment, isLoading, error, clearError, validated] = useFormFetching(async () => {
     const newPushComment = {
       content: newComment,
     };
-    let response = await PostService.pushComment(props.postid, newPushComment);
-    response = await PostService.getComments(props.postid);
-    props.setComments(response);
+    await PostService.pushComment(postid, newPushComment);
+    const response = await PostService.getComments(postid);
+    setComments(response);
     setNewComment('');
   })
 

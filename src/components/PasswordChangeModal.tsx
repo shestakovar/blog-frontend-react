@@ -1,16 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, FC } from 'react';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import { useFormFetching } from "../hooks/useFormFetching";
 import LoadingButton from './UI/LoadingButton';
 import UserService from "../services/UserService";
 
-const PasswordChangeModal = (userId) => {
-  const [show, setShow] = useState(false);
+interface props {
+  userId: number;
+}
+
+const PasswordChangeModal: FC<props> = ({ userId }) => {
+  const [show, setShow] = useState<boolean>(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [password, setPassword] = useState('');
-  const [confirmation, setConfirmation] = useState('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmation, setConfirmation] = useState<string>('');
   const isMounted = useRef(false);
 
   useEffect(() => {

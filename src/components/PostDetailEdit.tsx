@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { Card, Form, Button } from 'react-bootstrap';
 import TimeString from './UI/TimeString';
 import PostService from '../services/PostService';
 import { useFormFetching } from '../hooks/useFormFetching';
 import LoaderError from './UI/LoaderError';
 import MyEditor from './UI/MyEditor';
+import { IPost } from "../types/types";
 
-const PostDetailEdit = (props) => {
-  const [newPostTitle, setNewPostTitle] = useState(props.post.title);
-  const [newPostContent, setNewPostContent] = useState(props.post.content);
+interface props {
+  post: IPost;
+  setPost: (newPost: IPost) => void;
+  setEditMode: (set: boolean) => void;
+}
+
+const PostDetailEdit: FC<props> = ({ post, setPost, setEditMode }) => {
+  const [newPostTitle, setNewPostTitle] = useState(post.title);
+  const [newPostContent, setNewPostContent] = useState(post.content);
   const [isInvalid, setIsInvalid] = useState(false);
   const [updatePost, isLoading, error, clearError, validated] = useFormFetching(async () => {
-    let response = await PostService.updatePost(props.post.id, { title: newPostTitle, content: newPostContent });
-    props.setPost(response);
-    props.setEditMode(false);
+    let response = await PostService.updatePost(post.id, { title: newPostTitle, content: newPostContent });
+    setPost(response);
+    setEditMode(false);
   })
 
   useEffect(() => {
@@ -21,7 +28,7 @@ const PostDetailEdit = (props) => {
       setIsInvalid(true);
   }, [newPostContent])
 
-  if (!props?.post)
+  if (!post)
     return null;
 
   return (
@@ -36,7 +43,7 @@ const PostDetailEdit = (props) => {
                 <Form.Control.Feedback type="invalid">Введите заголовок!</Form.Control.Feedback>
               </Form.Group>
             </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">{props.post.author} <TimeString string={props.post.created} /></Card.Subtitle>
+            <Card.Subtitle className="mb-2 text-muted">{post.author} <TimeString string={post.created} /></Card.Subtitle>
             <Card.Text>
               <Form.Group className="mb-3" controlId="postDetailEdit.ControlTextarea2">
                 <Form.Control isInvalid={validated && isInvalid} as={MyEditor} setPostContent={setNewPostContent} initial={newPostContent} className="form-control" />

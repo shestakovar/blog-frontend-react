@@ -4,6 +4,7 @@ import { IUser } from "../types/types";
 interface PatchUser {
     id?: number;
     username?: string;
+    password?: string;
     first_name?: string;
     last_name?: string;
     last_login?: string | null;

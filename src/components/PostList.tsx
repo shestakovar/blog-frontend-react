@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import PostListItem from './PostListItem'
+import { IPost } from "../types/types";
 
-const PostList = ({ posts }) => {
+interface props {
+  posts: IPost[];
+}
+
+const PostList: FC<props> = ({ posts }) => {
   if (!posts)
     return null;
 

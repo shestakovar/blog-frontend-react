@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import PostCommentListItem from './PostCommentListItem';
+import { IComment } from "../types/types";
 
-const PostCommentList = ({ comments }) => {
+interface props {
+  comments: IComment[];
+}
+
+const PostCommentList: FC<props> = ({ comments }) => {
   if (!comments)
     return null;
 

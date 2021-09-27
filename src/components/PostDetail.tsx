@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TimeString from './UI/TimeString';
 import { stringToHtml } from '../utils/html';
+import { IPost } from "../types/types";
 
-const PostListItem = ({ post }) => {
+interface props {
+  post: IPost;
+}
+
+const PostDetail: FC<props> = ({ post }) => {
   if (!post.content)
     return null;
 
@@ -13,14 +18,12 @@ const PostListItem = ({ post }) => {
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted"><Link to={`/users/${post.author_id}`} className="link-dark">{post.author}</Link> <TimeString string={post.created} /></Card.Subtitle>
-        <Card.Text as="div" className="card_text">
+        <Card.Text as="div">
           {stringToHtml(post.content)}
         </Card.Text>
-        <Card.Link as={Link} to={`/${post.id}`}>Перейти к посту</Card.Link>
       </Card.Body>
-      <Card.Footer className="text-muted">Комментариев: {post.comment_count}</Card.Footer>
     </Card>
   )
 }
 
-export default PostListItem;
+export default PostDetail;
