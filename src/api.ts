@@ -5,7 +5,7 @@ import { logoutUser } from "./store/actions/user";
 import store from "./store/store"
 import { setAccessToken } from "./store/actions/user";
 
-const API_URL = "http://localhost:8000/api"
+const API_URL = "http://localhost:8000/api";
 
 export const instance = axios.create({
     baseURL: API_URL,
@@ -13,18 +13,18 @@ export const instance = axios.create({
 
 export const auth_instance = axios.create({
     baseURL: API_URL,
-})
+});
 
 export const cred_instance = axios.create({
     baseURL: API_URL,
     withCredentials: true,
-})
+});
 
 auth_instance.interceptors.request.use((config) => {
     const token = store.getState().token;
     config.headers.Authorization = `Bearer ${token}`;
     return config;
-})
+});
 
 auth_instance.interceptors.response.use((config) => { return config }, async (error) => {
     const origRequest = error.config;
@@ -41,4 +41,4 @@ auth_instance.interceptors.response.use((config) => { return config }, async (er
         }
     }
     throw error;
-})
+});

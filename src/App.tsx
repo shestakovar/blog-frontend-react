@@ -12,7 +12,7 @@ import classes from './App.module.css';
 
 function App() {
   const { logoutUser, setAccessToken } = useAction();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const wrapper = async () => {

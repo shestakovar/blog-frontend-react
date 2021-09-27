@@ -1,4 +1,4 @@
-export const fillLocalStorage = (username = null, token = null, userid = null) => {
+export const fillLocalStorage = (username:string|null = null, token:string|null = null, userid:string|null = null) => {
     if (username)
         localStorage.setItem('username', username);
     if (token)
