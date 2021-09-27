@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from 'draftjs-to-html';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import htmlToDraft from 'html-to-draftjs';
 
-const MyEditor = ({ setPostContent, className, initial }) => {
+interface props {
+  setPostContent: (text: string) => void;
+  className: string;
+  initial: string;
+}
+
+const MyEditor:FC<props> = ({ setPostContent, className, initial }) => {
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
@@ -21,7 +27,7 @@ const MyEditor = ({ setPostContent, className, initial }) => {
     }
   }, [])
 
-  const setComponentState = (newState) => {
+  const setComponentState = (newState: EditorState) => {
     setEditorState(newState);
     const text = draftToHtml(convertToRaw(newState.getCurrentContent()));
     setPostContent(text);

@@ -29,5 +29,5 @@ export const useFetching = (callback: TFetchingCallback) => {
     setError('');
   };
 
-  return [fetching, isLoading, error, clearError];
+  return [fetching, isLoading, error, clearError] as const;
 }

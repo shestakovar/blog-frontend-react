@@ -1,18 +1,18 @@
-import React from 'react'
-import { useSelector } from "react-redux";
+import React, { FC } from 'react'
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useAction } from '../../hooks/useAction';
 
 
-const Header = () => {
+const Header:FC = () => {
   const { logoutUser } = useAction()
-  const isAuth = useSelector(state => state.isAuth);
-  const username = useSelector(state => state.username);
-  const userid = useSelector(state => state.userid);
+  const isAuth = useTypedSelector(state => state.isAuth);
+  const username = useTypedSelector(state => state.username);
+  const userid = useTypedSelector(state => state.userid);
 
-  const logout = async () => {
-    await logoutUser();
+  const logout = () => {
+    logoutUser();
   };
 
   return (

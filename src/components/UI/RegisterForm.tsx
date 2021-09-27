@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Form, InputGroup, Row, Col } from 'react-bootstrap';
 import classes from './LoginForm.module.css';
 import LoadingButton from './LoadingButton';
+import { IPrint, IPrintField } from "../../types/types";
 
-const RegisterForm = ({ data, setData, dataPrint, submitAction, btnText, error, isLoading, validated }) => {
+interface RegisterFormProps {
+  data: IPrintField;
+  setData: (newData: IPrintField) => void;
+  dataPrint: IPrint;
+  submitAction: () => void;
+  isLoading: boolean;
+  validated: boolean;
+
+  btnText: string;
+  error: IPrintField;
+}
+
+const RegisterForm: FC<RegisterFormProps> = ({ data, setData, dataPrint, submitAction, btnText, error, isLoading, validated }) => {
   return (
     <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submitAction} >
       {Object.keys(dataPrint).map(key =>

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Pagination } from 'react-bootstrap';
 import classes from './MyPagination.module.css'
 
-const MyPagination = ({ page = 0, countPages, changePage }) => {
+interface MyPaginationProps {
+  page: number;
+  countPages: number;
+  changePage: (newPage: number) => void;
+}
+
+const MyPagination: FC<MyPaginationProps> = ({ page = 0, countPages, changePage }) => {
   const active = page + 1;
   let items = [];
   for (let number = 1; number <= countPages; number++) {

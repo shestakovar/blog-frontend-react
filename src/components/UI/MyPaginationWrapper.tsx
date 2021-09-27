@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, FC } from 'react';
 import { useLocation } from 'react-router';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Alert } from 'react-bootstrap';
@@ -7,16 +7,28 @@ import { useObserver } from '../../hooks/useObserver';
 import LoaderError from './LoaderError';
 import { parseLocation } from '../../utils/url';
 
+interface props {
+  elements: any[];
+  flush: () => void;
+  countPages: number;
+  limit: number;
+  fetchElements: (page: number, elements: any[]) => void;
+  isLoading: boolean;
+  error: string | object | null;
+  link: string;
+  addNew: string;
+}
 
-const MyPaginationWrapper = ({ elements, flush, countPages, limit, fetchElements, isLoading, error, children, link, addNew }) => {
+
+const MyPaginationWrapper:FC<props> = ({ elements, flush, countPages, limit, fetchElements, isLoading, error, children, link, addNew }) => {
   const location = useLocation();
   const history = useHistory();
   const queryPage = parseInt(parseLocation(location.search, ['page']).page);
   const [page, setPage] = useState(queryPage || 0);
-  const lastElement = useRef();
-  const [isPageLoading, setIsPageLoading] = useState(true);
+  const lastElement = useRef<HTMLDivElement>(null);
+  const [isPageLoading, setIsPageLoading] = useState<boolean>(true);
 
-  const changePage = (newpage) => {
+  const changePage = (newpage: number) => {
     if (queryPage !== newpage)
       history.push(`${link}?page=${newpage}`);
     else if (newpage !== page) {

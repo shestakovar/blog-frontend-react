@@ -27,3 +27,11 @@ export interface IComment {
   created: string;
   origin: number;
 }
+
+export interface IPrintField {
+  [str:string]: any;
+}
+
+export interface IPrint {
+  [str:string]: IPrintField;
+}

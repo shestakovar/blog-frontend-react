@@ -9,7 +9,6 @@ interface PatchUser {
     last_login?: string | null;
     email?: string;
     date_joined?: string;
-    avatar?: string | null;
 }
 
 export default class UserService {
@@ -19,7 +18,7 @@ export default class UserService {
         return posts.data;
     }
 
-    static async patchUser(id:number, userobj: PatchUser) {
+    static async patchUser(id:number, userobj: PatchUser | FormData) {
         const posts = await auth_instance.patch<IUser>(`/users/${id}/`, userobj);
         return posts.data;
     }

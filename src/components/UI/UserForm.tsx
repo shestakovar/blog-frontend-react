@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, FC } from 'react';
 import { Form, Button, Row, Col, InputGroup, Image, Ratio } from 'react-bootstrap';
 import LoaderError from './LoaderError';
 import { useFormFetching } from "../../hooks/useFormFetching";
@@ -6,11 +6,21 @@ import classes from './UserForm.module.css';
 import noAvatar from '../../img/no-avatar.svg'
 import { removeEmpty } from "../../utils/object";
 import UserService from "../../services/UserService";
+import { IPrint, IPrintField, IUser } from "../../types/types";
+
+interface UserFormProps {
+  data: IPrintField;
+  setData: (newData: IPrintField) => void;
+  dataPrint: IPrint;
+  setDataPrint: (newData: IPrint) => void;
+  canBeChanged: boolean;
+  setFixedUserData: (response: IUser) => void;
+}
 
 
-const UserForm = ({ data, setData, dataPrint, setDataPrint, canBeChanged, setFixedUserData }) => {
+const UserForm:FC<UserFormProps> = ({ data, setData, dataPrint, setDataPrint, canBeChanged, setFixedUserData }) => {
   const [initialState, setInitialState] = useState(dataPrint);
-  const [newAvatar, setNewAvatar] = useState(null);
+  const [newAvatar, setNewAvatar] = useState<File | null>(null);
 
   const [submit, isLoading, error, clearError, validated] = useFormFetching(async () => {
     const formData = new FormData();
@@ -43,7 +53,7 @@ const UserForm = ({ data, setData, dataPrint, setDataPrint, canBeChanged, setFix
 
               <InputGroup className="mb-3">
 
-                <Form.Control type="file" accept="image/*" onChange={e => { setNewAvatar(e.target.files[0]) }} />
+                <Form.Control type="file" accept="image/*" onChange={(e:React.ChangeEvent<HTMLInputElement>) => { if (e?.target?.files) setNewAvatar(e.target.files[0]) }} />
                 <Button
                   type="submit"
                   variant="outline-secondary"

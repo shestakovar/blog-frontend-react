@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { timePassed } from '../../utils/time';
 
-const TimeString = ({ string }) => {
+interface props {
+  string: string;
+}
+
+const TimeString:FC<props> = ({ string }) => {
   const [time, setTime] = useState(Date.now());
 
   useEffect(() => {

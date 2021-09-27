@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Container } from 'react-bootstrap';
 import { Telegram, Github } from 'react-bootstrap-icons';
 
-const Footer = () => {
+const Footer:FC = () => {
   return (
 
     <footer className="mt-5 text-center text-lg-start bg-light text-muted ">

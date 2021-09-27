@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 import LoadingButton from './LoadingButton';
 import classes from './LoginForm.module.css';
+import { IPrint, IPrintField } from "../../types/types";
 
-const LoginForm = ({ data, setData, dataPrint, submitAction, isLoading, validated }) => {
+interface LoginFormProps {
+  data: IPrintField;
+  setData: (newData: IPrintField) => void;
+  dataPrint: IPrint;
+  submitAction: () => void;
+  isLoading: boolean;
+  validated: boolean;
+}
+
+const LoginForm: FC<LoginFormProps> = ({ data, setData, dataPrint, submitAction, isLoading, validated }) => {
   return (
     <Form className={classes.auth_form_body} noValidate validated={validated} onSubmit={submitAction} >
       {Object.keys(dataPrint).map(key =>

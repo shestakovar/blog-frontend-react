@@ -15,5 +15,5 @@ export const useFormFetching = (callback: () => void) => {
         }
     })
 
-    return [formFetching, isLoading, error, clearError, validated];
+    return [formFetching, isLoading, error, clearError, validated] as const;
 }

@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
 
-export const useObserver = (lastElement: MutableRefObject<Element>, isLoading: boolean,
+export const useObserver = (lastElement: MutableRefObject<HTMLDivElement | null>, isLoading: boolean,
                             canLoad: boolean, callback: () => void) => {
   const observer = useRef<IntersectionObserver>();
   const isMounted = useRef<boolean>(false);
@@ -17,7 +17,7 @@ export const useObserver = (lastElement: MutableRefObject<Element>, isLoading: b
         callback();
       }
     };
-    if (isMounted.current) {
+    if (isMounted.current && lastElement.current) {
       observer.current = new IntersectionObserver(cb);
       observer.current.observe(lastElement.current);
       return () => {
